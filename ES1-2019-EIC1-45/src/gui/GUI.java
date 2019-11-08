@@ -30,7 +30,7 @@ public class GUI {
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 		});
 	}
@@ -73,7 +73,7 @@ public class GUI {
 		panel_1.add(UserRulesButton);
 		
 		
-		
+	
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 		
@@ -98,6 +98,49 @@ public class GUI {
 			};
 		ExcelTable = new JTable(data, columnNames);
 		panel_2.add(ExcelTable);
+	}
+
+}
+package gui;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+public class  {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					GUI window = new GUI();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public GUI() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }
