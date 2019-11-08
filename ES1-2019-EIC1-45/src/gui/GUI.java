@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 public class GUI {
 
 	private JFrame frame;
-	private JTable table;
+	private JTable ExcelTable;
 
 	/**
 	 * Launch the application.
@@ -47,7 +47,7 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 626, 416);
+		frame.setBounds(100, 100, 881, 560);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
@@ -58,19 +58,19 @@ public class GUI {
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1);
 		
-		JButton btnNewButton = new JButton("Qualidade iPlasma");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton iplasmaButton = new JButton("Qualidade iPlasma");
+		iplasmaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
 		panel_1.setLayout(new GridLayout(3, 0, 0, 0));
-		panel_1.add(btnNewButton);
+		panel_1.add(iplasmaButton);
 		
-		JButton btnNewButton_1 = new JButton("Qualidade PMD");
-		panel_1.add(btnNewButton_1);
+		JButton PMDButton = new JButton("Qualidade PMD");
+		panel_1.add(PMDButton);
 		
-		JButton btnNewButton_2 = new JButton("Regras User");
-		panel_1.add(btnNewButton_2);
+		JButton UserRulesButton = new JButton("Regras User");
+		panel_1.add(UserRulesButton);
 		
 		
 		
@@ -96,8 +96,8 @@ public class GUI {
 			    {"Joe", "Brown",
 			     "Pool", 10, false}
 			};
-		table = new JTable(data, columnNames);
-		panel_2.add(table);
+		ExcelTable = new JTable(data, columnNames);
+		panel_2.add(ExcelTable);
 	}
 
 }
