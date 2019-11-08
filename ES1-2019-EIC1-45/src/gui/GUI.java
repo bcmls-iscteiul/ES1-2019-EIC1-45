@@ -3,6 +3,8 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import java.awt.GridLayout;
+import javax.swing.JPanel;
 
 public class GUI {
 
@@ -38,6 +40,10 @@ public class GUI {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel);
 	}
 
 }
