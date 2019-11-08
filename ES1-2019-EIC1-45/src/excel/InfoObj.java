@@ -9,7 +9,7 @@ public class InfoObj {
 	double laa;
 	
 	public InfoObj(ExcelFile f, int i) {
-	
+		//f.getInfo(i);  //recebe a info do ficheiro f na linha x
 	
 	}
 
