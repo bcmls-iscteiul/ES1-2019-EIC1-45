@@ -28,6 +28,9 @@ public class GUI {
 				try {
 					GUI window = new GUI();
 					window.frame.setVisible(true);
+		/*        
+		 * needs to be full
+		 */
 				} catch (Exception e) {
 					e.printStackTrace();
 
