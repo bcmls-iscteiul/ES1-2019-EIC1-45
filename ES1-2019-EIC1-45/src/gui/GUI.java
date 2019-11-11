@@ -28,6 +28,10 @@ public class GUI {
 				try {
 					GUI window = new GUI();
 					window.frame.setVisible(true);
+		/*        
+		 * needs to be full
+		 * table needs to ocupy full right side
+		 */
 				} catch (Exception e) {
 					e.printStackTrace();
 
