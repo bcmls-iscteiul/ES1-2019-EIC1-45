@@ -1,6 +1,5 @@
 package excel;
 
-excel_import_branch
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,18 +50,5 @@ public class ExcelObject {
 
 	public double getLaa() {
 		return laa;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class ExcelObject {
-	
-	
-	public ExcelObject(ExcelFile f) {
-		
-		//atributos são inicializados aqui baseados na info do ficheiro importado e funcoes do EscellFile.
- master
 	}
-	
 }
