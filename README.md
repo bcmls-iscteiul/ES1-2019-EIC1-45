@@ -12,9 +12,9 @@ Frederico Correia 82006
 
 Bernando Sequeira 82223
 
-Andre Carmo
+Andre Carmo 82316
 
-Tomas Godinho
+Tomas Godinho 65245
 
 Descricao do Projecto:
 
