@@ -13,6 +13,10 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GUI {
 
@@ -73,12 +77,6 @@ public class GUI {
 		
 		JButton PMDButton = new JButton("Qualidade PMD");
 		panel_1.add(PMDButton);
-		
-		JButton UserRulesButton = new JButton("Regras User");
-		panel_1.add(UserRulesButton);
-		
-		
-	
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 		
@@ -103,6 +101,49 @@ public class GUI {
 			};
 		ExcelTable = new JTable(data, columnNames);
 		panel_2.add(ExcelTable);
+		JButton UserRulesButton = new JButton("Regras User");
+		UserRulesButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panel_1.setVisible(false);
+				panel_2.setVisible(false);
+				rulesGUI();
+			}
+
+			private void rulesGUI() {
+				// TODO Auto-generated method stub
+				JPanel panel = new JPanel();
+				
+				JButton showRules = new JButton("Show Rules");
+				JButton addRules = new JButton("Add rules");
+				panel.add(showRules);
+				panel.add(addRules);
+				frame.add(panel);
+			}});
+			
+		
+		
+		panel_1.add(UserRulesButton);
+		
 	}
 
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }
