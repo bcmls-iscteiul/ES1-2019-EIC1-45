@@ -21,24 +21,45 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+/**This class represents the Excel File
+ * 
+ * @author Frederico Correia
+ * @author Nuno Rego
+ *
+ */
 public class ExcelFile {
-
-	private static String DIRECTORY = "src/";
-	private String name;
-	private String path;
+	
+	/**
+	 * Path to the excel file
+	 */
+	private static String DIRECTORY="src/Long-Method.xlsx";
+	
+	/**
+	 * Variable that will let us read a store the information of the Excel file with its methos (class is imported from foreign POI API)
+	 */
 	private XSSFWorkbook workbook;
-	private ExcelObject object;
+	/**
+	 * List of every ExcelObject in the file
+	 */
 	private List<ExcelObject> list = new ArrayList<>();
-
-	public ExcelFile(String name) throws FileNotFoundException, IOException {
-		this.name = name;
-		this.path = DIRECTORY + name;
+	
+	/**Creates a new ExcelFile
+	 * 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public ExcelFile() throws FileNotFoundException, IOException {
+		importFile();
 	}
 
-	// This method will simply import the excel file, given it's location, into the
+	/**This method will import the excel file and create ExcelObjects for each line of the file adding them all into a list
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void importFile() throws FileNotFoundException, IOException {
 		// Create Workbook instance holding reference to .xlsx file
-		this.workbook = new XSSFWorkbook(new FileInputStream(path));
+		this.workbook = new XSSFWorkbook(new FileInputStream(DIRECTORY));
 		System.out.println("Novo workbook: " + workbook);
 		
 		// Then store every line in the excel, which represents a method of the Excel File, in the ArrayList
@@ -79,8 +100,15 @@ public class ExcelFile {
 		
 	}
 	
+	/**
+	 * 
+	 * @return list of ExcelObjects
+	 */
 	public List<ExcelObject> getExcelObjects() {
 		return this.list;
 	}
-	
+	public static void main(String args[]) throws FileNotFoundException, IOException {
+		ExcelFile f = new ExcelFile();
+		f.importFile();
+	}
 }
