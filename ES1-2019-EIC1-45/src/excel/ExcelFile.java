@@ -59,7 +59,6 @@ public class ExcelFile {
 				r.setCyclo(row.getCell(5).getNumericCellValue());
 				r.setAtfd(row.getCell(6).getNumericCellValue());
 				
-				
 				try {
 					r.setLaa(row.getCell(7).getNumericCellValue());
 				} catch(IllegalStateException e) {
@@ -80,9 +79,8 @@ public class ExcelFile {
 		
 	}
 	
-	public static void main(String args[]) throws FileNotFoundException, IOException {
-		ExcelFile file = new ExcelFile("Long-Method.xlsx");
-		file.importFile();
+	public List<ExcelObject> getExcelObjects() {
+		return this.list;
 	}
 	
 }
