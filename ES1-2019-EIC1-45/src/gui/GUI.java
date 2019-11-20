@@ -17,6 +17,8 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class GUI {
 
@@ -31,6 +33,7 @@ public class GUI {
 			public void run() {
 				try {
 					GUI window = new GUI();
+					window.frame.pack();
 					window.frame.setVisible(true);
 		/*        
 		 * needs to be full
@@ -62,21 +65,7 @@ public class GUI {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
-		panel.setLayout(new GridLayout(0, 2, 0, 0));
-		
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1);
-		
-		JButton iplasmaButton = new JButton("Qualidade iPlasma");
-		iplasmaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		panel_1.setLayout(new GridLayout(3, 0, 0, 0));
-		panel_1.add(iplasmaButton);
-		
-		JButton PMDButton = new JButton("Qualidade PMD");
-		panel_1.add(PMDButton);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2);
 		
@@ -101,31 +90,70 @@ public class GUI {
 			};
 		ExcelTable = new JTable(data, columnNames);
 		panel_2.add(ExcelTable);
-		JButton UserRulesButton = new JButton("Regras User");
-		UserRulesButton.addActionListener(new ActionListener() {
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenuItem PMDQualityMenu = new JMenuItem("PMD Quality");
+		PMDQualityMenu.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_1.setVisible(false);
-				panel_2.setVisible(false);
-				rulesGUI();
+				panel_2.setVisible(!panel_2.isVisible());
 			}
-
-			private void rulesGUI() {
-				// TODO Auto-generated method stub
-				JPanel panel = new JPanel();
-				
-				JButton showRules = new JButton("Show Rules");
-				JButton addRules = new JButton("Add rules");
-				panel.add(showRules);
-				panel.add(addRules);
-				frame.add(panel);
-			}});
 			
+		});
+		menuBar.add(PMDQualityMenu);
 		
+		JMenuItem IPlasmaQualityMenu = new JMenuItem("iPlasma Quality\r\n");
+		IPlasmaQualityMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panel_2.setVisible(!panel_2.isVisible());
+			}
+			
+		});
+		menuBar.add(IPlasmaQualityMenu);
 		
-		panel_1.add(UserRulesButton);
+		JMenuItem VisualizeRulesMenu = new JMenuItem("Visualize Rules");
+		VisualizeRulesMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			
+				panel_2.setVisible(!panel_2.isVisible());
+			}
+			
+		});
+		menuBar.add(VisualizeRulesMenu);
+		
+		JMenuItem AddNewRulesMenu = new JMenuItem("Add new rules");
+		AddNewRulesMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panel_2.setVisible(!panel_2.isVisible());
+			}
+			
+		});
+		menuBar.add(AddNewRulesMenu);
+		
+		JMenuItem exitMenu = new JMenuItem("Exit");
+		exitMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+			
+		});
+		menuBar.add(exitMenu);
 		
 	}
 
