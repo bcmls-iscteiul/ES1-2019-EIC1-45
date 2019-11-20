@@ -66,14 +66,13 @@ public class ExcelFile {
 					r.setLaa(row.getCell(7).getStringCellValue());
 				}
 				
-				System.out.println(r.getLaa());
-				
 				r.setIs_long_method(row.getCell(8).getBooleanCellValue());
 				r.setiPlasma(row.getCell(9).getBooleanCellValue());
 				r.setPMD(row.getCell(10).getBooleanCellValue());
 				r.setIs_feature_envy(row.getCell(11).getBooleanCellValue());
 				
 				System.out.println("Created excel object: " + r);
+				list.add(r);
 			}
 			
 			i++;
