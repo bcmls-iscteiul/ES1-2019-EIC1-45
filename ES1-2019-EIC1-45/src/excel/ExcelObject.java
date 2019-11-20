@@ -22,23 +22,23 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 // This class represents a line in the excel file - a method.
 public class ExcelObject {
 
-	private int id;
+	private double id;
 	
 	private String pckage;
 	private String clss;
 	private String method;
 	
-	private int loc;
-	private int cyclo;
-	private int atfd;
-	private int laa;
+	private double loc;
+	private double cyclo;
+	private double atfd;
+	private double laa;
 	
 	private boolean is_long_method;
 	private boolean iPlasma;
 	private boolean PMD;
 	private boolean is_feature_envy;
 	
-	public ExcelObject(int id, String pckage, String clss, String method, int loc, int cyclo, int atfd, int laa,
+	public ExcelObject(double id, String pckage, String clss, String method, double  loc, double cyclo, double atfd, double laa,
 			boolean is_long_method, boolean iPlasma, boolean PMD, boolean is_feature_envy) {
 		
 		this.id = id;
@@ -54,12 +54,16 @@ public class ExcelObject {
 		this.PMD = PMD;
 		this.is_feature_envy = is_feature_envy;
 	}
+	
+	public ExcelObject() {
+		
+	}
 
-	public int getId() {
+	public double getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(double id) {
 		this.id = id;
 	}
 
@@ -87,35 +91,39 @@ public class ExcelObject {
 		this.method = method;
 	}
 
-	public int getLoc() {
+	public double getLoc() {
 		return loc;
 	}
 
-	public void setLoc(int loc) {
+	public void setLoc(double loc) {
 		this.loc = loc;
 	}
 
-	public int getCyclo() {
+	public double getCyclo() {
 		return cyclo;
 	}
 
-	public void setCyclo(int cyclo) {
+	public void setCyclo(double cyclo) {
 		this.cyclo = cyclo;
 	}
 
-	public int getAtfd() {
+	public double getAtfd() {
 		return atfd;
 	}
 
-	public void setAtfd(int atfd) {
+	public void setAtfd(double atfd) {
 		this.atfd = atfd;
 	}
 
-	public int getLaa() {
+	public double getLaa() {
 		return laa;
 	}
 
-	public void setLaa(int laa) {
+	public void setLaa(String laa) {
+		this.laa = Double.parseDouble(laa);
+	}
+	
+	public void setLaa(Double laa) {
 		this.laa = laa;
 	}
 
@@ -151,7 +159,10 @@ public class ExcelObject {
 		this.is_feature_envy = is_feature_envy;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "ExcelObject [id=" + id + "]";
+	}
 	
 	
 	
