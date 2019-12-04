@@ -47,6 +47,7 @@ public class GUI {
 					GUI window = new GUI();
 					window.convertToStringMatrix();
 					window.frame.pack();
+					window.frame.setResizable(false);
 					window.frame.setVisible(true);
 					/*
 					 * needs to be full table needs to ocupy full right side
