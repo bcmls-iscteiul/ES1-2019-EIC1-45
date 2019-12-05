@@ -119,7 +119,8 @@ public class GUI {
 			}
 
 		});
-		menuBar.add(IPlasmaQualityMenu);
+		menuBar.add(IPlasmaQualityMenu); 
+		// change
 
 		JMenu VisualizeRulesMenu = new JMenu("Visualize Rules");
 		JMenuItem dci = new JMenuItem("DCI");
