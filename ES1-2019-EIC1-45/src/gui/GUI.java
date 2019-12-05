@@ -18,6 +18,7 @@ import excel.ExcelObject;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
@@ -40,7 +41,7 @@ public class GUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -82,21 +83,15 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		JPanel panel_2 = new JPanel();
-		panel.add(panel_2);
 
-		String[] columnNames = { "MethodID", "package", "class", "method", "LOC","CYCLO","ATFD", "LAA" , "Is Long Method", "iPlasma", "PMD", "Is feature envy"};
-		
+		String[] columnNames = { "MethodID", "package", "class", "method", "LOC", "CYCLO", "ATFD", "LAA",
+				"Is Long Method", "iPlasma", "PMD", "Is feature envy" };
 
-		
-		
-		JTable ExcelTable= new JTable(convertToStringMatrix(), columnNames);
-		 ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JTable ExcelTable = new JTable(convertToStringMatrix(), columnNames);
+		ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-	       JScrollPane pane = new JScrollPane(ExcelTable);
+		JScrollPane pane = new JScrollPane(ExcelTable);
 		panel_2.add(pane, BorderLayout.CENTER);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -126,7 +121,64 @@ public class GUI {
 		});
 		menuBar.add(IPlasmaQualityMenu);
 
-		JMenuItem VisualizeRulesMenu = new JMenuItem("Visualize Rules");
+		JMenu VisualizeRulesMenu = new JMenu("Visualize Rules");
+		JMenuItem dci = new JMenuItem("DCI");
+		dci.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JPanel dciPanel = new JPanel();
+				if (panel_2.isVisible()) {
+					panel_2.setVisible(false);
+					JLabel label = new JLabel("O valor do DCI e ");
+					dciPanel.add(label);
+					frame.add(dciPanel);
+				} else {
+					frame.removeAll();
+					frame.repaint();
+					panel_2.setVisible(true);
+				}
+
+			}
+
+		});
+		JMenuItem dii = new JMenuItem("DII");
+		dii.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panel_2.setVisible(!panel_2.isVisible());
+			}
+
+		});
+		JMenuItem adci = new JMenuItem("ADCI");
+		adci.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panel_2.setVisible(!panel_2.isVisible());
+			}
+
+		});
+		JMenuItem adii = new JMenuItem("ADII");
+		adii.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panel_2.setVisible(!panel_2.isVisible());
+			}
+
+		});
+
+		VisualizeRulesMenu.add(dci);
+		VisualizeRulesMenu.add(dii);
+		VisualizeRulesMenu.add(adci);
+		VisualizeRulesMenu.add(adii);
+
 		VisualizeRulesMenu.addActionListener(new ActionListener() {
 
 			@Override
@@ -162,7 +214,7 @@ public class GUI {
 
 		});
 		menuBar.add(exitMenu);
-
+		frame.getContentPane().add(panel_2);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -183,18 +235,21 @@ public class GUI {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+
 	}
-	
+
 	private Object[][] convertToStringMatrix() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
 		Object[][] matrixGUI = new Object[list.size()][12];
 		int contador = 0;
-		for(ExcelObject eo : list) {
-			Object[] temp = {eo.getId(),eo.getPckage(),eo.getClass(),eo.getMethod(),eo.getLoc(),eo.getCyclo(),eo.getAtfd(),eo.getLaa(),eo.isIs_long_method(),eo.isiPlasma(),eo.isPMD(),eo.isIs_feature_envy()};
+		for (ExcelObject eo : list) {
+			Object[] temp = { eo.getId(), eo.getPckage(), eo.getClass(), eo.getMethod(), eo.getLoc(), eo.getCyclo(),
+					eo.getAtfd(), eo.getLaa(), eo.isIs_long_method(), eo.isiPlasma(), eo.isPMD(),
+					eo.isIs_feature_envy() };
 			matrixGUI[contador] = temp;
 			contador++;
 		}
 		return matrixGUI;
-		
+
 	}
 }
