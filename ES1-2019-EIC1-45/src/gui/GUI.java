@@ -1,35 +1,33 @@
 package gui;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.GridLayout;
-
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JTable;
-
-import excel.ExcelFile;
-import excel.ExcelObject;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-
 import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import excel.ExcelFile;
+import excel.ExcelObject;
 
 public class GUI {
 
@@ -191,14 +189,73 @@ public class GUI {
 
 		});
 		menuBar.add(VisualizeRulesMenu);
-
+		
+		JPanel newRulesPanelMain = new JPanel(new BorderLayout());
+		JPanel newRulesPanelCheckBox = new JPanel(new GridLayout(2,2,10,10));
+		newRulesPanelMain.add(newRulesPanelCheckBox,BorderLayout.NORTH);
 		JMenuItem AddNewRulesMenu = new JMenuItem("Add new rules");
+		ArrayList<JCheckBox> checkboxList = new ArrayList<>();
+		JCheckBox LOCBox = new JCheckBox("LOC");
+		checkboxList.add(LOCBox);
+		newRulesPanelCheckBox.add(LOCBox);
+		JCheckBox CYCLOBox = new JCheckBox("CYCLO");
+		checkboxList.add(CYCLOBox);
+		newRulesPanelCheckBox.add(CYCLOBox);
+		JCheckBox AFTDBox = new JCheckBox("AFTD");
+		checkboxList.add(AFTDBox);
+		newRulesPanelCheckBox.add(AFTDBox);
+		JCheckBox LAABox = new JCheckBox("LAA");
+		checkboxList.add(LAABox);
+		newRulesPanelCheckBox.add(LAABox);
+		ButtonGroup methodChooser = new ButtonGroup();
+		JRadioButton is_feature_envy = new JRadioButton("is_feature_envy",true);
+		JRadioButton is_long_method = new JRadioButton("is_long_method");
+		methodChooser.add(is_feature_envy);
+		methodChooser.add(is_long_method);
+		ButtonGroup andOr = new ButtonGroup();
+		JRadioButton andButton = new JRadioButton("And",true);
+		JRadioButton orButton = new JRadioButton("Or");
+		andOr.add(andButton);
+		andOr.add(orButton);
+		ButtonGroup moreLessArg1 = new ButtonGroup();
+		JRadioButton biggerButtonArg1 = new JRadioButton("Arg 1 >",true);
+		JRadioButton smallerButtonArg1 = new JRadioButton("Arg 1 <");
+		moreLessArg1.add(biggerButtonArg1);
+		moreLessArg1.add(smallerButtonArg1);
+		ButtonGroup moreLessArg2 = new ButtonGroup();
+		JRadioButton biggerButtonArg2 = new JRadioButton("Arg 1 >",true);
+		JRadioButton smallerButtonArg2 = new JRadioButton("Arg 2 <");
+		moreLessArg2.add(biggerButtonArg2);
+		moreLessArg2.add(smallerButtonArg2);
+		JPanel newRulesPanelRadioButtons = new JPanel(new GridLayout(4,2));
+		newRulesPanelMain.add(newRulesPanelRadioButtons,BorderLayout.CENTER);
+		newRulesPanelRadioButtons.add(is_feature_envy);
+		newRulesPanelRadioButtons.add(is_long_method);
+		newRulesPanelRadioButtons.add(orButton);
+		newRulesPanelRadioButtons.add(andButton);
+		newRulesPanelRadioButtons.add(biggerButtonArg1);
+		newRulesPanelRadioButtons.add(smallerButtonArg1);
+		newRulesPanelRadioButtons.add(biggerButtonArg2);
+		newRulesPanelRadioButtons.add(smallerButtonArg2);
+		
+		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(2,1));
+		newRulesPanelMain.add(newRulesPanelTextFields,BorderLayout.SOUTH);
+		JTextField arg1Value = new JTextField("Insert Threshold for the first argument:");
+		JTextField arg2Value = new JTextField("Insert Threshold for the second argument:");
+		newRulesPanelTextFields.add(arg1Value);
+		newRulesPanelTextFields.add(arg2Value);
+		
+		
+		
+		
+		
 		AddNewRulesMenu.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				panel_2.setVisible(!panel_2.isVisible());
+				newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
 			}
 
 		});
@@ -216,6 +273,8 @@ public class GUI {
 		});
 		menuBar.add(exitMenu);
 		frame.getContentPane().add(panel_2);
+		frame.getContentPane().add(newRulesPanelMain);
+		newRulesPanelMain.setVisible(false);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
