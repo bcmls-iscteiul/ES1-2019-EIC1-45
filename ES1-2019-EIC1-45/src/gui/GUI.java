@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -26,6 +28,7 @@ import javax.swing.JScrollPane;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -70,7 +73,21 @@ public class GUI {
 	 * Create the application.
 	 */
 	public GUI() {
+		
 		initialize();
+		//screenSize();
+	}
+	
+	private void screenSize() {
+		//size of the screen
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		//height of the task bar
+		Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration());
+		int taskBarSize = scnMax.bottom;
+
+		//available size of the screen 
+		frame.setLocation(screenSize.width - frame.getWidth(), screenSize.height - taskBarSize - frame.getHeight());
 	}
 
 	/**
@@ -91,13 +108,16 @@ public class GUI {
 
 		//Show Excel in GUI
 		JPanel excelPanel = new JPanel();
+		
 
 		String[] columnNames = { "MethodID", "package", "class", "method", "LOC", "CYCLO", "ATFD", "LAA",
 				"Is Long Method", "iPlasma", "PMD", "Is feature envy" };
 
 		JTable ExcelTable = new JTable(convertToStringMatrix(), columnNames);
-		//ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
+		ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		Dimension d = ExcelTable.getPreferredSize();
+		d.height = 600;
+		ExcelTable.setPreferredScrollableViewportSize( d );
 		JScrollPane pane = new JScrollPane(ExcelTable);
 		excelPanel.add(pane, BorderLayout.CENTER);
 		container.add("ExcelPanel" ,excelPanel);
