@@ -126,7 +126,7 @@ public class GUI {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenuItem showExcel = new JMenuItem("Show/Hide Excel file");
+		JMenuItem showExcel = new JMenuItem("Show Excel Table");
 		showExcel.addActionListener(new ActionListener() {
 
 			@Override
