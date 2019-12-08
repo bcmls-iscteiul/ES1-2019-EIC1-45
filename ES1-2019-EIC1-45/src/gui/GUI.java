@@ -7,10 +7,12 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import excel.ExcelFile;
 import excel.ExcelObject;
@@ -23,6 +25,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -36,6 +39,8 @@ public class GUI {
 	private JFrame frame;
 	private JTable ExcelTable;
 	private ExcelFile excelfile;
+	private Container container;
+	private CardLayout layout = new CardLayout();
 
 	/**
 	 * Launch the application.
@@ -73,29 +78,45 @@ public class GUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		container = frame.getContentPane();
 		try {
 			excelfile = new ExcelFile();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		frame.setBounds(100, 100, 881, 560);
+		//frame.setBounds(100, 100, 881, 560);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
+		frame.getContentPane().setLayout(layout);
 
-		JPanel panel_2 = new JPanel();
+		//Show Excel in GUI
+		JPanel excelPanel = new JPanel();
 
 		String[] columnNames = { "MethodID", "package", "class", "method", "LOC", "CYCLO", "ATFD", "LAA",
 				"Is Long Method", "iPlasma", "PMD", "Is feature envy" };
 
 		JTable ExcelTable = new JTable(convertToStringMatrix(), columnNames);
-		ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		JScrollPane pane = new JScrollPane(ExcelTable);
-		panel_2.add(pane, BorderLayout.CENTER);
+		excelPanel.add(pane, BorderLayout.CENTER);
+		container.add("ExcelPanel" ,excelPanel);
+		//
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
+		
+		JMenuItem showExcel = new JMenuItem("Show/Hide Excel file");
+		showExcel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				layout.show(container, "ExcelPanel");
+			}
+			
+		});
+		menuBar.add(showExcel);
 
 		JMenuItem PMDQualityMenu = new JMenuItem("PMD Quality");
 		PMDQualityMenu.addActionListener(new ActionListener() {
@@ -103,7 +124,6 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
@@ -115,31 +135,26 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
 		menuBar.add(IPlasmaQualityMenu); 
 		// change
+		
 
 		JMenu VisualizeRulesMenu = new JMenu("Visualize Rules");
+		
+		JPanel DCIPanel = new JPanel();
+		JTextField dciTF = new JTextField("It works");
+		DCIPanel.add(dciTF);
+		container.add("DCIPanel", DCIPanel);
 		JMenuItem dci = new JMenuItem("DCI");
 		dci.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JPanel dciPanel = new JPanel();
-				if (panel_2.isVisible()) {
-					panel_2.setVisible(false);
-					JLabel label = new JLabel("O valor do DCI e ");
-					dciPanel.add(label);
-					frame.add(dciPanel);
-				} else {
-					frame.removeAll();
-					frame.repaint();
-					panel_2.setVisible(true);
-				}
+				layout.show(container, "DCIPanel");
 
 			}
 
@@ -150,7 +165,6 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
@@ -160,7 +174,6 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
@@ -170,7 +183,6 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
@@ -186,7 +198,6 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
@@ -198,7 +209,6 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
 			}
 
 		});
@@ -215,28 +225,6 @@ public class GUI {
 
 		});
 		menuBar.add(exitMenu);
-		frame.getContentPane().add(panel_2);
-	}
-
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-
 	}
 
 	private Object[][] convertToStringMatrix() {
