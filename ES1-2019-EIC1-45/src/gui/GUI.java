@@ -13,12 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButton;
@@ -207,6 +209,25 @@ public class GUI {
 		JCheckBox LAABox = new JCheckBox("LAA");
 		checkboxList.add(LAABox);
 		newRulesPanelCheckBox.add(LAABox);
+		for(JCheckBox c : checkboxList) {
+			c.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int count = 0;
+					for (JCheckBox c : checkboxList) {
+						if (c.isSelected()) {
+							count +=1;
+						}
+						if (count > 2) {
+							JCheckBox check =(JCheckBox) e.getSource();
+							check.setSelected(false);
+							JOptionPane.showMessageDialog(null, "You can oly select 2 checkboxes");
+						}
+					}
+				}
+			});
+		}
 		ButtonGroup methodChooser = new ButtonGroup();
 		JRadioButton is_feature_envy = new JRadioButton("is_feature_envy",true);
 		JRadioButton is_long_method = new JRadioButton("is_long_method");
@@ -231,19 +252,43 @@ public class GUI {
 		newRulesPanelMain.add(newRulesPanelRadioButtons,BorderLayout.CENTER);
 		newRulesPanelRadioButtons.add(is_feature_envy);
 		newRulesPanelRadioButtons.add(is_long_method);
-		newRulesPanelRadioButtons.add(orButton);
 		newRulesPanelRadioButtons.add(andButton);
+		newRulesPanelRadioButtons.add(orButton);
 		newRulesPanelRadioButtons.add(biggerButtonArg1);
 		newRulesPanelRadioButtons.add(smallerButtonArg1);
 		newRulesPanelRadioButtons.add(biggerButtonArg2);
 		newRulesPanelRadioButtons.add(smallerButtonArg2);
 		
-		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(2,1));
+		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(3,2));
 		newRulesPanelMain.add(newRulesPanelTextFields,BorderLayout.SOUTH);
-		JTextField arg1Value = new JTextField("Insert Threshold for the first argument:");
-		JTextField arg2Value = new JTextField("Insert Threshold for the second argument:");
+		JLabel arg1Label = new JLabel("Insert Threshold for the first argument:");
+		JTextField arg1Value = new JTextField();
+		JLabel arg2Label = new JLabel("Insert Threshold for the second argument:");
+		JTextField arg2Value = new JTextField();
+		JButton submitButton = new JButton("Submit");
+		submitButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int checkBoxCount = 0;
+				for(JCheckBox c : checkboxList) {
+					if(c.isSelected()) {
+						checkBoxCount++;
+					}
+				}
+				if(checkBoxCount == 2 && !arg1Value.getText().equals("") && !arg2Value.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Tá Tudo Selecionado");
+				}else if(checkBoxCount!=2) {
+					JOptionPane.showMessageDialog(null, "You must select two arguments.");
+				}
+				
+			}
+		});
+		newRulesPanelTextFields.add(arg1Label);
 		newRulesPanelTextFields.add(arg1Value);
+		newRulesPanelTextFields.add(arg2Label);
 		newRulesPanelTextFields.add(arg2Value);
+		newRulesPanelTextFields.add(submitButton);
 		
 		
 		
