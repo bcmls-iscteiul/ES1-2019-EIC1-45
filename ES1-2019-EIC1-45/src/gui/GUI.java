@@ -191,7 +191,7 @@ public class GUI {
 
 		});
 		menuBar.add(VisualizeRulesMenu);
-		
+
 		JPanel newRulesPanelMain = new JPanel(new BorderLayout());
 		JPanel newRulesPanelCheckBox = new JPanel(new GridLayout(2,2,10,10));
 		newRulesPanelMain.add(newRulesPanelCheckBox,BorderLayout.NORTH);
@@ -211,7 +211,7 @@ public class GUI {
 		newRulesPanelCheckBox.add(LAABox);
 		for(JCheckBox c : checkboxList) {
 			c.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int count = 0;
@@ -222,7 +222,7 @@ public class GUI {
 						if (count > 2) {
 							JCheckBox check =(JCheckBox) e.getSource();
 							check.setSelected(false);
-							JOptionPane.showMessageDialog(null, "You can oly select 2 checkboxes");
+							JOptionPane.showMessageDialog(null, "You can only select 2 checkboxes");
 						}
 					}
 				}
@@ -258,7 +258,7 @@ public class GUI {
 		newRulesPanelRadioButtons.add(smallerButtonArg1);
 		newRulesPanelRadioButtons.add(biggerButtonArg2);
 		newRulesPanelRadioButtons.add(smallerButtonArg2);
-		
+
 		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(3,2));
 		newRulesPanelMain.add(newRulesPanelTextFields,BorderLayout.SOUTH);
 		JLabel arg1Label = new JLabel("Insert Threshold for the first argument:");
@@ -267,19 +267,124 @@ public class GUI {
 		JTextField arg2Value = new JTextField();
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int checkBoxCount = 0;
+				String Arg1 = "";
+				String Arg2 = "";
 				for(JCheckBox c : checkboxList) {
-					if(c.isSelected()) {
+					if(Arg1.equals("")&&c.isSelected()) {
+						Arg1 = c.getText();
+						checkBoxCount++;
+					}else if (Arg2.equals("")&& c.isSelected()){
+						Arg2 = c.getText();
 						checkBoxCount++;
 					}
 				}
 				if(checkBoxCount == 2 && !arg1Value.getText().equals("") && !arg2Value.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Tá Tudo Selecionado");
+					Double threshold1, threshold2;
+					try {
+						threshold1 = Double.parseDouble(arg1Value.getText());
+						threshold2 = Double.parseDouble(arg2Value.getText());
+					} catch (NumberFormatException exc) {
+						JOptionPane.showMessageDialog(null, "Make sure you entered numbers in the Text Fields.");
+						return;
+					}
+					Boolean greaterArg1 = false;
+					if(biggerButtonArg1.isSelected()) {
+						greaterArg1 = true;
+					}
+					Boolean greaterArg2 = false;
+					if(biggerButtonArg2.isSelected()) {
+						greaterArg2 = true;
+					}
+					Boolean andValue = false;
+					if(andButton.isSelected()) {
+						andValue = true;
+					}
+					Boolean isFeatureEnvy = false;
+					if(is_feature_envy.isSelected()) {
+						isFeatureEnvy=true;
+					}
+					calculateNewRule(Arg1,Arg2,threshold1,threshold2,greaterArg1,greaterArg2,andValue,isFeatureEnvy);
+					newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
+					panel_2.setVisible(!panel_2.isVisible());
 				}else if(checkBoxCount!=2) {
 					JOptionPane.showMessageDialog(null, "You must select two arguments.");
+				}else if (arg1Value.getText().equals("")||arg2Value.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Make sure you entered both values for the thresholds.");
+				}
+
+			}
+
+			private void calculateNewRule(String arg1, String arg2, Double threshold1, Double threshold2,
+					Boolean greaterArg1, Boolean greaterArg2, Boolean andValue,Boolean isFeatureEnvy) {
+				for(int i =0; i<ExcelTable.getRowCount();i++) {
+					double arg1Value,arg2Value;
+					switch(arg1) {
+						case("LOC"):
+							arg1Value = (double) ExcelTable.getValueAt(i, 4);
+							System.out.println(arg1Value);
+							break;
+						case("CYCLO"):
+							arg1Value = (double) ExcelTable.getValueAt(i, 5);
+							System.out.println(arg1Value);
+							break;
+						case("AFTD"):
+							arg1Value = (double) ExcelTable.getValueAt(i, 6);
+							System.out.println(arg1Value);
+							break;
+						default:
+							arg1Value = 0;
+					}
+					switch(arg2) {
+						case("CYCLO"):
+							arg2Value = (double) ExcelTable.getValueAt(i, 5);
+							System.out.println(arg2Value);
+							break;
+						case("AFTD"):
+							arg2Value = (double) ExcelTable.getValueAt(i, 6);
+							System.out.println(arg2Value);
+							break;
+						case("LAA"):
+							arg2Value = (double) ExcelTable.getValueAt(i, 7);
+							System.out.println(arg2Value);
+							break;
+						default:
+							arg2Value = 0;
+					}
+					Boolean isTrue=false;
+					if(greaterArg1&&greaterArg2&&andValue) {
+						isTrue = arg1Value >= threshold1 && arg2Value >=threshold2;
+						System.out.println("> > &&");
+					}else if(greaterArg1&&greaterArg2&&!andValue) {
+						isTrue = arg1Value >= threshold1 || arg2Value >= threshold2; 
+						System.out.println("> > ||");
+					}else if(greaterArg1&&!greaterArg2&&andValue) {
+						isTrue = arg1Value >= threshold1 && arg2Value < threshold2; 
+						System.out.println("> < &&");
+					}else if(greaterArg1&&!greaterArg2&&!andValue) {
+						isTrue = arg1Value >= threshold1 || arg2Value < threshold2; 
+						System.out.println("> < ||");
+					}else if(!greaterArg1&&greaterArg2&&andValue) {
+						isTrue = arg1Value < threshold1 && arg2Value >= threshold2;
+						System.out.println("< > &&");
+					}else if(!greaterArg1&&greaterArg2&&!andValue) {
+						isTrue = arg1Value < threshold1 || arg2Value >= threshold2;
+						System.out.println("< > ||");
+					}else if(!greaterArg1&&!greaterArg2&&andValue) {
+						isTrue = arg1Value < threshold1 && arg2Value < threshold2; 
+						System.out.println("< < &&");
+					}else if(!greaterArg1&&!greaterArg2&&!andValue) {
+						isTrue = arg1Value < threshold1 || arg2Value >= threshold2; 
+						System.out.println("< < ||");
+					}
+					if(isFeatureEnvy) {
+						ExcelTable.setValueAt(isTrue, i, 11);
+					}else {
+						ExcelTable.setValueAt(isTrue, i, 8);
+					}
 				}
 				
 			}
@@ -289,11 +394,11 @@ public class GUI {
 		newRulesPanelTextFields.add(arg2Label);
 		newRulesPanelTextFields.add(arg2Value);
 		newRulesPanelTextFields.add(submitButton);
-		
-		
-		
-		
-		
+
+
+
+
+
 		AddNewRulesMenu.addActionListener(new ActionListener() {
 
 			@Override
