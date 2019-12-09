@@ -357,7 +357,7 @@ public class GUI {
 					}
 					calculateNewRule(Arg1,Arg2,threshold1,threshold2,greaterArg1,greaterArg2,andValue,isFeatureEnvy);
 					newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
-					panel_2.setVisible(!panel_2.isVisible());
+					excelPanel.setVisible(!excelPanel.isVisible());
 				}else if(checkBoxCount!=2) {
 					JOptionPane.showMessageDialog(null, "You must select two arguments.");
 				}else if (arg1Value.getText().equals("")||arg2Value.getText().equals("")) {
@@ -452,7 +452,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				panel_2.setVisible(!panel_2.isVisible());
+				excelPanel.setVisible(!excelPanel.isVisible());
 				newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
 			}
 
@@ -470,7 +470,7 @@ public class GUI {
 
 		});
 		menuBar.add(exitMenu);
-		frame.getContentPane().add(panel_2);
+		frame.getContentPane().add(excelPanel);
 		frame.getContentPane().add(newRulesPanelMain);
 		newRulesPanelMain.setVisible(false);
 	}
