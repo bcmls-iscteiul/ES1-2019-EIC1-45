@@ -445,9 +445,18 @@ public class GUI {
 
 
 
-
-
+		container.add("AddNewRules",newRulesPanelMain);
 		AddNewRulesMenu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				layout.show(container, "AddNewRules");
+			}
+			
+		});
+
+		/*AddNewRulesMenu.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -456,7 +465,7 @@ public class GUI {
 				newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
 			}
 
-		});
+		});*/
 		menuBar.add(AddNewRulesMenu);
 
 		JMenuItem exitMenu = new JMenuItem("Exit");
@@ -471,8 +480,8 @@ public class GUI {
 		});
 		menuBar.add(exitMenu);
 		frame.getContentPane().add(excelPanel);
-		frame.getContentPane().add(newRulesPanelMain);
-		newRulesPanelMain.setVisible(false);
+		//frame.getContentPane().add(newRulesPanelMain);
+		//newRulesPanelMain.setVisible(false);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
