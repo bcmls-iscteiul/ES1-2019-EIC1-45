@@ -43,6 +43,8 @@ public class ExcelFile {
 	 */
 	private List<ExcelObject> list = new ArrayList<>();
 	
+	private int[] indicators = new int[4];
+	
 	/**Creates a new ExcelFile
 	 * 
 	 * @throws IOException 
@@ -91,13 +93,14 @@ public class ExcelFile {
 				r.setPMD(row.getCell(10).getBooleanCellValue());
 				r.setIs_feature_envy(row.getCell(11).getBooleanCellValue());
 				
+				setIndicators(r);
+				
 				System.out.println("Created excel object: " + r);
 				list.add(r);
 			}
 			
 			i++;
 		}
-		
 	}
 	
 	/**
@@ -106,6 +109,15 @@ public class ExcelFile {
 	 */
 	public List<ExcelObject> getExcelObjects() {
 		return this.list;
+	}
+	
+	public void setIndicators(ExcelObject obj) {
+		boolean[] result = obj.defineIndicators(obj);
+		for(int i=0; i<4; i++) {
+			if(result[i]) {
+				indicators[i] ++;
+			}
+		}
 	}
 	public static void main(String args[]) throws FileNotFoundException, IOException {
 		ExcelFile f = new ExcelFile();

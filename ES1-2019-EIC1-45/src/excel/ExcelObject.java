@@ -317,11 +317,24 @@ public class ExcelObject {
 		this.is_feature_envy = is_feature_envy;
 	}
 	
-	@Override
+	public boolean[] defineIndicators(ExcelObject obj) {
+		boolean[] values = new boolean[4];
+		if((obj.isiPlasma() || obj.isPMD()) && obj.is_long_method) 
+			values[0]=true;
+		if((obj.isiPlasma() || obj.isPMD()) && !obj.is_long_method)
+			values[1]=true;
+		if((!obj.isiPlasma() || !obj.isPMD()) && !obj.is_long_method)
+			values[2]=true;
+		if((!obj.isiPlasma() || !obj.isPMD()) && obj.is_long_method)
+			values[3]=true;
+		return values;
+	}
+	
 	/**
 	 * 
 	 * @return a string following the format "ExcelObject [id=id]"
 	 */
+	@Override
 	public String toString() {
 		return "ExcelObject [id=" + id + "]";
 	}
