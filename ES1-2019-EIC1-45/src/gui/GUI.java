@@ -188,7 +188,7 @@ public class GUI {
 		container.add("ADCIPanel", ADCIPanel); 
 
 		JPanel ADIIPanel = new JPanel();
-		String[] ADIIcolumnNames = { "MethodID", "DII" };
+		String[] ADIIcolumnNames = { "MethodID", "ADII" };
 		JTable ADIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[3], ADIIcolumnNames);
 		ADIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Dimension d4 = ADIITable.getPreferredSize();
