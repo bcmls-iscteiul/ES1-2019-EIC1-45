@@ -89,10 +89,10 @@ public class GUI {
 	/**
 	 * Launch the application.
 	 */
-	
+
 	private ArrayList<Rule> ruleList;
-	private Rule isLongRule = new Rule("LOC","CYCLO",80.,10.,true,true,true,false);
-	private Rule isFeatureRule = new Rule("ATFD","LAA",4.,0.42,true,false,true,true);
+	private Rule isLongRule = new Rule("isLong","LOC","CYCLO",80.,10.,true,true,true,false);
+	private Rule isFeatureRule = new Rule("isFeatureEnvy","ATFD","LAA",4.,0.42,true,false,true,true);
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
@@ -124,7 +124,7 @@ public class GUI {
 		initialize();
 		// screenSize();
 	}
-	
+
 
 	/**
 	 * Implements all Swing components used. Includes a exit button.
@@ -241,7 +241,7 @@ public class GUI {
 			}
 		});
 		menuBar.add(IPlasmaQualityMenu);
-		
+
 		JMenuItem defineThresholds = new JMenuItem("Define Thresholds");
 		JPanel thresholdPanel = new JPanel(new BorderLayout());
 		container.add("thresholdPanel", thresholdPanel);
@@ -251,49 +251,95 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				layout.show(container, "thresholdPanel");
 			}
-			
+
 		});
 		menuBar.add(defineThresholds);
-		
+
 		JPanel isLongPanel = new JPanel(new GridLayout(3, 2));
 		JLabel LOCLabel = new JLabel("Define new Threshold for LOC: ");
 		JTextField LOCValue = new JTextField();
 		JLabel CYCLOLabel = new JLabel("Define new Threshold for CYCLO: ");
 		JTextField CYCLOValue = new JTextField();
 		JButton submitIsLong = new JButton("Submit isLong");
-				
+		submitIsLong.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isLongRule.setThreshold1(Double.parseDouble(LOCValue.getText()));
+				isLongRule.setThreshold2(Double.parseDouble(CYCLOValue.getText()));
+			}
+		});	
+
 		thresholdPanel.add(isLongPanel, BorderLayout.NORTH);
 		isLongPanel.add(LOCLabel);
 		isLongPanel.add(LOCValue);
 		isLongPanel.add(CYCLOLabel);
 		isLongPanel.add(CYCLOValue);
 		isLongPanel.add(submitIsLong);
-		
+
 		JPanel isFeaturePanel = new JPanel(new GridLayout(3, 2));
 		JLabel ATFDLabel = new JLabel("Define new Threshold for ATFD: ");
 		JTextField ATFDValue = new JTextField();
 		JLabel LAALabel = new JLabel("Define new Threshold for LAA: ");
 		JTextField LAAValue = new JTextField();
 		JButton submitIsFeature = new JButton("Submit isFeatureEnvy");
-				
+		submitIsFeature.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isFeatureRule.setThreshold1(Double.parseDouble(ATFDValue.getText()));
+				isFeatureRule.setThreshold2(Double.parseDouble(LAAValue.getText()));
+			}
+		});	
 		thresholdPanel.add(isFeaturePanel, BorderLayout.SOUTH);
 		isFeaturePanel.add(ATFDLabel);
 		isFeaturePanel.add(ATFDValue);
 		isFeaturePanel.add(LAALabel);
 		isFeaturePanel.add(LAAValue);
 		isFeaturePanel.add(submitIsFeature);
-		
+
 		JMenuItem visualizeRules = new JMenuItem("Visualize Rules");
+		JPanel visualizeRulesPanel = new JPanel();
+		container.add(visualizeRulesPanel,"visualizeRules");
 		visualizeRules.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+				layout.show(container,"visualizeRules");
+			for(Rule r: ruleList) {
+				String labelText="";
+				if (r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " && " + r.getArg2() + " > " + r.getThreshold2();
+					System.out.println("> > &&");
+				} else if (r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " || " + r.getArg2() + " > " + r.getThreshold2();
+					System.out.println("> > ||");
+				} else if (r.getGreaterArg1() && !r.getGreaterArg2()&& r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " && " + r.getArg2() + " < " + r.getThreshold2();
+					System.out.println("> < &&");
+				} else if (r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " || " + r.getArg2() + " < " + r.getThreshold2();
+					System.out.println("> < ||");
+				} else if (!r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " && " + r.getArg2() + " > " + r.getThreshold2();
+					System.out.println("< > &&");
+				} else if (!r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " || " + r.getArg2() + " > " + r.getThreshold2();
+					System.out.println("< > ||");
+				} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " && " + r.getArg2() + " < " + r.getThreshold2();
+					System.out.println("< < &&");
+				} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
+					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " || " + r.getArg2() + " < " + r.getThreshold2();
+					System.out.println("< < ||");
+				}
+				JLabel label = new JLabel(labelText);
+				visualizeRulesPanel.add(label);
+			}}
 			
 		});
-		
+
+
 		menuBar.add(visualizeRules);
 
 		JMenu VisualizeRulesMenu = new JMenu("Quality");
@@ -482,32 +528,32 @@ public class GUI {
 					switch (arg1) {
 					case ("LOC"):
 						arg1Value = (double) ExcelTable.getValueAt(i, 4);
-						System.out.println(arg1Value);
-						break;
+					System.out.println(arg1Value);
+					break;
 					case ("CYCLO"):
 						arg1Value = (double) ExcelTable.getValueAt(i, 5);
-						System.out.println(arg1Value);
-						break;
+					System.out.println(arg1Value);
+					break;
 					case ("AFTD"):
 						arg1Value = (double) ExcelTable.getValueAt(i, 6);
-						System.out.println(arg1Value);
-						break;
+					System.out.println(arg1Value);
+					break;
 					default:
 						arg1Value = 0;
 					}
 					switch (arg2) {
 					case ("CYCLO"):
 						arg2Value = (double) ExcelTable.getValueAt(i, 5);
-						System.out.println(arg2Value);
-						break;
+					System.out.println(arg2Value);
+					break;
 					case ("AFTD"):
 						arg2Value = (double) ExcelTable.getValueAt(i, 6);
-						System.out.println(arg2Value);
-						break;
+					System.out.println(arg2Value);
+					break;
 					case ("LAA"):
 						arg2Value = (double) ExcelTable.getValueAt(i, 7);
-						System.out.println(arg2Value);
-						break;
+					System.out.println(arg2Value);
+					break;
 					default:
 						arg2Value = 0;
 					}
