@@ -89,6 +89,10 @@ public class GUI {
 	/**
 	 * Launch the application.
 	 */
+	
+	private ArrayList<Rule> ruleList;
+	private Rule isLongRule = new Rule("LOC","CYCLO",80.,10.,true,true,true,false);
+	private Rule isFeatureRule = new Rule("ATFD","LAA",4.,0.42,true,false,true,true);
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
@@ -114,7 +118,9 @@ public class GUI {
 	 * Create the application.
 	 */
 	public GUI() {
-
+		ruleList = new ArrayList<>();
+		ruleList.add(isFeatureRule);
+		ruleList.add(isLongRule);
 		initialize();
 		// screenSize();
 	}
