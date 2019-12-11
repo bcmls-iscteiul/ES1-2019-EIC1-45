@@ -24,9 +24,7 @@ class ExcelFileTest {
 	@Test
 	void testImportFile() throws FileNotFoundException, IOException {
 		ExcelFile testFile = new ExcelFile();
-		//file.importFile();
 		assertNotEquals(file, testFile);
-		//novo excelfile, comparar com o procedimento que puxa (resultado)
 		
 		
 	}
@@ -38,15 +36,4 @@ class ExcelFileTest {
 		assertEquals(file.getExcelObjects(), testFile.getExcelObjects());
 	}
 	
-	
-	void testSetIndicators() {
-		
-	}
-	
-	
-	@Test
-	void test() {
-		//fail("Not yet implemented");
-	}
-
 }
