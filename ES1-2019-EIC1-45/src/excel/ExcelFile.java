@@ -119,8 +119,4 @@ public class ExcelFile {
 			}
 		}
 	}
-	public static void main(String args[]) throws FileNotFoundException, IOException {
-		ExcelFile f = new ExcelFile();
-		f.importFile();
-	}
 }
