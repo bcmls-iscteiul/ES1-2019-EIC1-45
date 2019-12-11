@@ -33,8 +33,9 @@ class ExcelFileTest {
 	
 	
 	@Test
-	void testGetExcelObjects() {
-		
+	void testGetExcelObjects() throws FileNotFoundException, IOException {
+		ExcelFile testFile = new ExcelFile();
+		assertEquals(file.getExcelObjects(), testFile.getExcelObjects());
 	}
 	
 	
