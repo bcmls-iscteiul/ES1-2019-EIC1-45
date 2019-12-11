@@ -163,8 +163,25 @@ public class GUI {
 	private void DCI() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
 		DCIPanel = new JPanel();
-		String[] DCIcolumnNames = { "MethodID", "DCI" };
-		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNames);
+		ArrayList<String> DCIcolumnNames = new ArrayList<String>();
+		DCIcolumnNames.add("MethodID");
+		DCIcolumnNames.add("DCI");
+		// if regras
+		if (ruleList.size() > 2) {
+			int count = 1;
+			for (int i = 2; i < ruleList.size(); i++) {
+				DCIcolumnNames.add("NewRule" + count);
+				count++;
+			}
+		}
+		String[] DCIcolumnNamesRevised = arrayListToArray(DCIcolumnNames);
+		
+		for(int i = 0; i < DCIcolumnNamesRevised.length; i++ ) {
+			System.out.println("SYSOUT REVISED: " + DCIcolumnNamesRevised[i]);
+		}
+		
+		// String[] DCIcolumnNames = { "MethodID", "DCI" };
+		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNamesRevised);
 		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Dimension d1 = DCITable.getPreferredSize();
 		d1.height = 600;
