@@ -680,7 +680,7 @@ public class GUI {
 	/**
 	 * Gets the boolean array which defines the DCI, DII, ADCI, ADII(Qualities)
 	 * 
-	 * @return array with 4 arrays containing the ID of the method and the boolen
+	 * @return array with 4 arrays containing the ID of the method and the boolean
 	 *         related to the rule
 	 */
 
