@@ -139,6 +139,21 @@ public class GUI {
 		excelPanel.add(pane, BorderLayout.CENTER);
 		container.add("ExcelPanel" ,excelPanel);
 		//
+		
+		//Show DCI,DII,ADCI,ADII tables
+		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
+		JPanel DCIPanel = new JPanel();
+		String[] DCIcolumnNames = {"MethodID", "DCI"};
+		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0],DCIcolumnNames);
+		JScrollPane pane2 = new JScrollPane(DCITable);
+		excelPanel.add(pane2, BorderLayout.CENTER);
+		container.add("DCIPanel", pane2);
+		
+		
+		
+		
+		
+		//
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -181,9 +196,6 @@ public class GUI {
 
 		JMenu VisualizeRulesMenu = new JMenu("Visualize Rules");
 		
-		JPanel DCIPanel = new JPanel();
-		JTextField dciTF = new JTextField("It works");
-		DCIPanel.add(dciTF);
 		container.add("DCIPanel", DCIPanel);
 		JMenuItem dci = new JMenuItem("DCI");
 		dci.addActionListener(new ActionListener() {
@@ -356,8 +368,9 @@ public class GUI {
 						isFeatureEnvy=true;
 					}
 					calculateNewRule(Arg1,Arg2,threshold1,threshold2,greaterArg1,greaterArg2,andValue,isFeatureEnvy);
-					newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
-					excelPanel.setVisible(!excelPanel.isVisible());
+					layout.show(container,"ExcelPanel");
+					//newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
+					//excelPanel.setVisible(!excelPanel.isVisible());
 				}else if(checkBoxCount!=2) {
 					JOptionPane.showMessageDialog(null, "You must select two arguments.");
 				}else if (arg1Value.getText().equals("")||arg2Value.getText().equals("")) {
@@ -455,17 +468,6 @@ public class GUI {
 			}
 			
 		});
-
-		/*AddNewRulesMenu.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				excelPanel.setVisible(!excelPanel.isVisible());
-				newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
-			}
-
-		});*/
 		menuBar.add(AddNewRulesMenu);
 
 		JMenuItem exitMenu = new JMenuItem("Exit");
@@ -479,31 +481,11 @@ public class GUI {
 
 		});
 		menuBar.add(exitMenu);
-		frame.getContentPane().add(excelPanel);
+		//frame.getContentPane().add(excelPanel);
 		//frame.getContentPane().add(newRulesPanelMain);
 		//newRulesPanelMain.setVisible(false);
 	}
 
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-
-	}
 
 	private Object[][] convertToStringMatrix() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
@@ -518,5 +500,31 @@ public class GUI {
 		}
 		return matrixGUI;
 
+	}
+	
+	public Object[] convertRulesToGUI() {
+		List<ExcelObject> list = excelfile.getExcelObjects();
+		int contador=0;
+		Object[][] tempDCI = new Object[list.size()][list.size()];
+		Object[][] tempDII = new Object[list.size()][list.size()];
+		Object[][] tempADCI = new Object[list.size()][list.size()];
+		Object[][] tempADII = new Object[list.size()][list.size()];
+		for(ExcelObject eo: list) {
+			boolean dci = eo.defineIndicators(eo)[0];
+			boolean dii = eo.defineIndicators(eo)[1];
+			boolean adci = eo.defineIndicators(eo)[2];
+			boolean adii = eo.defineIndicators(eo)[3];
+			Object[] tempDCIM = { eo.getMethod(),dci};
+			tempDCI[contador] = tempDCIM;
+			Object[] tempDIIM = { eo.getMethod(),dii};
+			tempDII[contador] = tempDIIM;
+			Object[] tempADCIM = { eo.getMethod(),adci};
+			tempADCI[contador] = tempADCIM;
+			Object[] tempADIIM = { eo.getMethod(),adii};
+			tempADII[contador] = tempADIIM;
+			contador++;
+		}
+		Object[] final_list = {tempDCI,tempDII,tempADCI,tempADII};
+		return final_list;
 	}
 }

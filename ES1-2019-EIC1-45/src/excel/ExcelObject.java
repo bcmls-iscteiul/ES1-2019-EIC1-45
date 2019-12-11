@@ -317,7 +317,7 @@ public class ExcelObject {
 		this.is_feature_envy = is_feature_envy;
 	}
 	
-	public boolean[] defineIndicators() {
+	public boolean[] defineIndicators(ExcelObject obj) {
 		boolean[] values = new boolean[4];
 		if((this.isiPlasma() || this.isPMD()) && this.is_long_method) 
 			values[0]=true;
