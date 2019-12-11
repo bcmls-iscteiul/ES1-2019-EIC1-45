@@ -156,6 +156,20 @@ public class GUI {
 
 	}
 
+	private Object[][] newDefectsTable(JTable table, String[] columnName, Object[][] existing, Object[] addedColumn) {
+		Object[][] newTable = new Object[existing.length + 1][excelfile.getExcelObjects().size()];
+		for (int i = 0; i < existing.length; i++) {
+			for (int j = 0; j < existing[i].length; j++) {
+				newTable[i][j] = existing[i][j];
+			}
+		}
+		for(int i=0;i<existing[0].length;i++) {
+			newTable[existing.length+1][i]= addedColumn[i];
+		}
+		return newTable;
+
+	}
+
 	/**
 	 * Implements the DCI Panel in the GUI
 	 */
@@ -175,11 +189,11 @@ public class GUI {
 			}
 		}
 		String[] DCIcolumnNamesRevised = arrayListToArray(DCIcolumnNames);
-		
-		for(int i = 0; i < DCIcolumnNamesRevised.length; i++ ) {
+
+		for (int i = 0; i < DCIcolumnNamesRevised.length; i++) {
 			System.out.println("SYSOUT REVISED: " + DCIcolumnNamesRevised[i]);
 		}
-		
+
 		// String[] DCIcolumnNames = { "MethodID", "DCI" };
 		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNamesRevised);
 		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
