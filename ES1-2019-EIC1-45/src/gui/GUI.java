@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.commons.math3.analysis.function.Add;
+
 import excel.ExcelFile;
 import excel.ExcelObject;
 
@@ -33,6 +35,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.lang.reflect.AnnotatedTypeVariable;
 import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -301,44 +304,7 @@ public class GUI {
 		JMenuItem visualizeRules = new JMenuItem("Visualize Rules");
 		JPanel visualizeRulesPanel = new JPanel();
 		container.add(visualizeRulesPanel,"visualizeRules");
-		visualizeRules.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layout.show(container,"visualizeRules");
-				visualizeRulesPanel.removeAll();
-			for(Rule r: ruleList) {
-				String labelText="";
-				if (r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " && " + r.getArg2() + " > " + r.getThreshold2();
-					System.out.println("> > &&");
-				} else if (r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " || " + r.getArg2() + " > " + r.getThreshold2();
-					System.out.println("> > ||");
-				} else if (r.getGreaterArg1() && !r.getGreaterArg2()&& r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " && " + r.getArg2() + " < " + r.getThreshold2();
-					System.out.println("> < &&");
-				} else if (r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " || " + r.getArg2() + " < " + r.getThreshold2();
-					System.out.println("> < ||");
-				} else if (!r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " && " + r.getArg2() + " > " + r.getThreshold2();
-					System.out.println("< > &&");
-				} else if (!r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " || " + r.getArg2() + " > " + r.getThreshold2();
-					System.out.println("< > ||");
-				} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " && " + r.getArg2() + " < " + r.getThreshold2();
-					System.out.println("< < &&");
-				} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
-					labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " || " + r.getArg2() + " < " + r.getThreshold2();
-					System.out.println("< < ||");
-				}
-				JLabel label = new JLabel(labelText);
-				visualizeRulesPanel.add(label);
-			}}
-			
-		});
 
 
 		menuBar.add(visualizeRules);
@@ -524,75 +490,7 @@ public class GUI {
 
 			}
 
-			private void calculateNewRule(Rule newRule) {
-				for (int i = 0; i < ExcelTable.getRowCount(); i++) {
-					double arg1Value, arg2Value;
-					switch (newRule.getArg1()) {
-					case ("LOC"):
-						arg1Value = (double) ExcelTable.getValueAt(i, 4);
-					System.out.println(arg1Value);
-					break;
-					case ("CYCLO"):
-						arg1Value = (double) ExcelTable.getValueAt(i, 5);
-					System.out.println(arg1Value);
-					break;
-					case ("AFTD"):
-						arg1Value = (double) ExcelTable.getValueAt(i, 6);
-					System.out.println(arg1Value);
-					break;
-					default:
-						arg1Value = 0;
-					}
-					switch (newRule.getArg2()) {
-					case ("CYCLO"):
-						arg2Value = (double) ExcelTable.getValueAt(i, 5);
-					System.out.println(arg2Value);
-					break;
-					case ("AFTD"):
-						arg2Value = (double) ExcelTable.getValueAt(i, 6);
-					System.out.println(arg2Value);
-					break;
-					case ("LAA"):
-						arg2Value = (double) ExcelTable.getValueAt(i, 7);
-					System.out.println(arg2Value);
-					break;
-					default:
-						arg2Value = 0;
-					}
-					Boolean isTrue = false;
-					if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
-						isTrue = arg1Value >= newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
-						System.out.println("> > &&");
-					} else if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
-						isTrue = arg1Value >= newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
-						System.out.println("> > ||");
-					} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
-						isTrue = arg1Value >= newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
-						System.out.println("> < &&");
-					} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
-						isTrue = arg1Value >= newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
-						System.out.println("> < ||");
-					} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
-						isTrue = arg1Value < newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
-						System.out.println("< > &&");
-					} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
-						isTrue = arg1Value < newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
-						System.out.println("< > ||");
-					} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
-						isTrue = arg1Value < newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
-						System.out.println("< < &&");
-					} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
-						isTrue = arg1Value < newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
-						System.out.println("< < ||");
-					}
-					if (newRule.getIsFeatureEnvy()) {
-						ExcelTable.setValueAt(isTrue, i, 11);
-					} else {
-						ExcelTable.setValueAt(isTrue, i, 8);
-					}
-				}
 
-			}
 		});
 		newRulesPanelTextFields.add(arg1Label);
 		newRulesPanelTextFields.add(arg1Value);
@@ -623,6 +521,83 @@ public class GUI {
 
 		});
 		menuBar.add(exitMenu);
+
+		visualizeRules.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.show(container,"visualizeRules");
+				visualizeRulesPanel.removeAll();
+				for(Rule r: ruleList) {
+					String labelText="";
+					if (r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " && " + r.getArg2() + " > " + r.getThreshold2();
+						System.out.println("> > &&");
+					} else if (r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " || " + r.getArg2() + " > " + r.getThreshold2();
+						System.out.println("> > ||");
+					} else if (r.getGreaterArg1() && !r.getGreaterArg2()&& r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " && " + r.getArg2() + " < " + r.getThreshold2();
+						System.out.println("> < &&");
+					} else if (r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " > " +r.getThreshold1() + " || " + r.getArg2() + " < " + r.getThreshold2();
+						System.out.println("> < ||");
+					} else if (!r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " && " + r.getArg2() + " > " + r.getThreshold2();
+						System.out.println("< > &&");
+					} else if (!r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " || " + r.getArg2() + " > " + r.getThreshold2();
+						System.out.println("< > ||");
+					} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " && " + r.getArg2() + " < " + r.getThreshold2();
+						System.out.println("< < &&");
+					} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
+						labelText = r.getName() + r.getArg1() +  " < " +r.getThreshold1() + " || " + r.getArg2() + " < " + r.getThreshold2();
+						System.out.println("< < ||");
+					}
+					JLabel label = new JLabel(labelText);
+					visualizeRulesPanel.add(label);
+					if ( r.getName().equals("Custom")) {
+						JButton edit = new JButton("Edit Custom Rule");
+						visualizeRulesPanel.add(edit);
+						edit.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								// TODO Auto-generated method stub
+								for(JCheckBox c: checkboxList) {
+									if(c.getText().equals(r.getArg1())||c.getText().equals(r.getArg2())) {
+										c.setSelected(true);
+									}else {
+										c.setSelected(false);
+									}
+								}
+								if(r.getAndValue()) {
+									andButton.setSelected(true);
+								}else {
+									orButton.setSelected(false);
+								}
+								if(r.getGreaterArg1()) {
+									biggerButtonArg1.setSelected(true);
+								}else {
+									smallerButtonArg1.setSelected(true);
+								}
+								if(r.getGreaterArg2()) {
+									biggerButtonArg2.setSelected(true);
+								}else {
+									smallerButtonArg2.setSelected(true);
+								}
+								arg1Value.setText(r.getThreshold1().toString());
+								arg2Value.setText(r.getThreshold2().toString());
+								ruleList.remove(r);
+								layout.show(container, "AddNewRules");
+							}
+						});
+
+					}
+				}}
+
+		});
 		// frame.getContentPane().add(excelPanel);
 		// frame.getContentPane().add(newRulesPanelMain);
 		// newRulesPanelMain.setVisible(false);
@@ -675,5 +650,74 @@ public class GUI {
 		}
 		Object[] final_list = { tempDCI, tempDII, tempADCI, tempADII };
 		return final_list;
+	}
+	private void calculateNewRule(Rule newRule) {
+		for (int i = 0; i < this.ExcelTable.getRowCount(); i++) {
+			double arg1Value, arg2Value;
+			switch (newRule.getArg1()) {
+			case ("LOC"):
+				arg1Value = (double) this.ExcelTable.getValueAt(i, 4);
+			System.out.println(arg1Value);
+			break;
+			case ("CYCLO"):
+				arg1Value = (double) this.ExcelTable.getValueAt(i, 5);
+			System.out.println(arg1Value);
+			break;
+			case ("AFTD"):
+				arg1Value = (double) this.ExcelTable.getValueAt(i, 6);
+			System.out.println(arg1Value);
+			break;
+			default:
+				arg1Value = 0;
+			}
+			switch (newRule.getArg2()) {
+			case ("CYCLO"):
+				arg2Value = (double) this.ExcelTable.getValueAt(i, 5);
+			System.out.println(arg2Value);
+			break;
+			case ("AFTD"):
+				arg2Value = (double) this.ExcelTable.getValueAt(i, 6);
+			System.out.println(arg2Value);
+			break;
+			case ("LAA"):
+				arg2Value = (double) this.ExcelTable.getValueAt(i, 7);
+			System.out.println(arg2Value);
+			break;
+			default:
+				arg2Value = 0;
+			}
+			Boolean isTrue = false;
+			if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
+				isTrue = arg1Value >= newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
+				System.out.println("> > &&");
+			} else if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
+				isTrue = arg1Value >= newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
+				System.out.println("> > ||");
+			} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
+				isTrue = arg1Value >= newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
+				System.out.println("> < &&");
+			} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
+				isTrue = arg1Value >= newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
+				System.out.println("> < ||");
+			} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
+				isTrue = arg1Value < newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
+				System.out.println("< > &&");
+			} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
+				isTrue = arg1Value < newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
+				System.out.println("< > ||");
+			} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
+				isTrue = arg1Value < newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
+				System.out.println("< < &&");
+			} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
+				isTrue = arg1Value < newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
+				System.out.println("< < ||");
+			}
+			if (newRule.getIsFeatureEnvy()) {
+				this.ExcelTable.setValueAt(isTrue, i, 11);
+			} else {
+				this.ExcelTable.setValueAt(isTrue, i, 8);
+			}
+		}
+
 	}
 }
