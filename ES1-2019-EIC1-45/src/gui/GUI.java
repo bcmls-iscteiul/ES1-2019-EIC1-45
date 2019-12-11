@@ -151,7 +151,7 @@ public class GUI {
 		String[] columnNames = { "MethodID", "package", "class", "method", "LOC", "CYCLO", "ATFD", "LAA",
 				"Is Long Method", "iPlasma", "PMD", "Is feature envy" };
 
-		JTable ExcelTable = new JTable(convertToStringMatrix(), columnNames);
+		ExcelTable = new JTable(convertToStringMatrix(), columnNames);
 		ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Dimension d = ExcelTable.getPreferredSize();
 		d.height = 600;
@@ -243,6 +243,7 @@ public class GUI {
 				// TODO Auto-generated method stub
 			}
 		});
+		
 		menuBar.add(IPlasmaQualityMenu);
 
 		JMenuItem defineThresholds = new JMenuItem("Define Thresholds");
@@ -596,11 +597,13 @@ public class GUI {
 
 					}
 				}}
+			
 
 		});
 		// frame.getContentPane().add(excelPanel);
 		// frame.getContentPane().add(newRulesPanelMain);
 		// newRulesPanelMain.setVisible(false);
+		
 	}
 
 	/**
@@ -720,4 +723,5 @@ public class GUI {
 		}
 
 	}
+	
 }
