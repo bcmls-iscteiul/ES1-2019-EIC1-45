@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import org.apache.commons.math3.analysis.function.Add;
 
@@ -68,6 +69,9 @@ import excel.ExcelObject;
 
 public class GUI {
 
+	public JFrame getFrame() {
+		return frame;
+	}
 	/**
 	 * Main Frame used
 	 */
@@ -491,7 +495,7 @@ public class GUI {
 
 			}
 
-
+			
 		});
 		newRulesPanelTextFields.add(arg1Label);
 		newRulesPanelTextFields.add(arg1Value);
@@ -527,6 +531,7 @@ public class GUI {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				layout.show(container,"visualizeRules");
 				visualizeRulesPanel.removeAll();
 				for(Rule r: ruleList) {
@@ -596,9 +601,10 @@ public class GUI {
 						});
 
 					}
-				}}
-			
-
+				getFrame().repaint();
+				getFrame().validate();
+				}
+			}
 		});
 		// frame.getContentPane().add(excelPanel);
 		// frame.getContentPane().add(newRulesPanelMain);
