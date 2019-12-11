@@ -306,6 +306,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				layout.show(container,"visualizeRules");
+				visualizeRulesPanel.removeAll();
 			for(Rule r: ruleList) {
 				String labelText="";
 				if (r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
@@ -508,8 +509,10 @@ public class GUI {
 					if (is_feature_envy.isSelected()) {
 						isFeatureEnvy = true;
 					}
-					calculateNewRule(Arg1, Arg2, threshold1, threshold2, greaterArg1, greaterArg2, andValue,
+					Rule newCustomRule = new Rule("Custom",Arg1, Arg2, threshold1, threshold2, greaterArg1, greaterArg2, andValue,
 							isFeatureEnvy);
+					ruleList.add(newCustomRule);
+					calculateNewRule(newCustomRule);
 					layout.show(container, "ExcelPanel");
 					// newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
 					// excelPanel.setVisible(!excelPanel.isVisible());
@@ -521,11 +524,10 @@ public class GUI {
 
 			}
 
-			private void calculateNewRule(String arg1, String arg2, Double threshold1, Double threshold2,
-					Boolean greaterArg1, Boolean greaterArg2, Boolean andValue, Boolean isFeatureEnvy) {
+			private void calculateNewRule(Rule newRule) {
 				for (int i = 0; i < ExcelTable.getRowCount(); i++) {
 					double arg1Value, arg2Value;
-					switch (arg1) {
+					switch (newRule.getArg1()) {
 					case ("LOC"):
 						arg1Value = (double) ExcelTable.getValueAt(i, 4);
 					System.out.println(arg1Value);
@@ -541,7 +543,7 @@ public class GUI {
 					default:
 						arg1Value = 0;
 					}
-					switch (arg2) {
+					switch (newRule.getArg2()) {
 					case ("CYCLO"):
 						arg2Value = (double) ExcelTable.getValueAt(i, 5);
 					System.out.println(arg2Value);
@@ -558,32 +560,32 @@ public class GUI {
 						arg2Value = 0;
 					}
 					Boolean isTrue = false;
-					if (greaterArg1 && greaterArg2 && andValue) {
-						isTrue = arg1Value >= threshold1 && arg2Value >= threshold2;
+					if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
+						isTrue = arg1Value >= newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
 						System.out.println("> > &&");
-					} else if (greaterArg1 && greaterArg2 && !andValue) {
-						isTrue = arg1Value >= threshold1 || arg2Value >= threshold2;
+					} else if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
+						isTrue = arg1Value >= newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
 						System.out.println("> > ||");
-					} else if (greaterArg1 && !greaterArg2 && andValue) {
-						isTrue = arg1Value >= threshold1 && arg2Value < threshold2;
+					} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
+						isTrue = arg1Value >= newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
 						System.out.println("> < &&");
-					} else if (greaterArg1 && !greaterArg2 && !andValue) {
-						isTrue = arg1Value >= threshold1 || arg2Value < threshold2;
+					} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
+						isTrue = arg1Value >= newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
 						System.out.println("> < ||");
-					} else if (!greaterArg1 && greaterArg2 && andValue) {
-						isTrue = arg1Value < threshold1 && arg2Value >= threshold2;
+					} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
+						isTrue = arg1Value < newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
 						System.out.println("< > &&");
-					} else if (!greaterArg1 && greaterArg2 && !andValue) {
-						isTrue = arg1Value < threshold1 || arg2Value >= threshold2;
+					} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
+						isTrue = arg1Value < newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
 						System.out.println("< > ||");
-					} else if (!greaterArg1 && !greaterArg2 && andValue) {
-						isTrue = arg1Value < threshold1 && arg2Value < threshold2;
+					} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
+						isTrue = arg1Value < newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
 						System.out.println("< < &&");
-					} else if (!greaterArg1 && !greaterArg2 && !andValue) {
-						isTrue = arg1Value < threshold1 || arg2Value >= threshold2;
+					} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
+						isTrue = arg1Value < newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
 						System.out.println("< < ||");
 					}
-					if (isFeatureEnvy) {
+					if (newRule.getIsFeatureEnvy()) {
 						ExcelTable.setValueAt(isTrue, i, 11);
 					} else {
 						ExcelTable.setValueAt(isTrue, i, 8);
