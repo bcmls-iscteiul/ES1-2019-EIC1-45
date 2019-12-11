@@ -100,6 +100,10 @@ public class GUI {
 	 */
 
 	private ArrayList<Rule> ruleList;
+	JPanel DCIPanel;
+	JPanel DIIPanel;
+	JPanel ADCIPanel;
+	JPanel ADIIPanel;
 	private Rule isLongRule = new Rule("isLong", "LOC", "CYCLO", 80., 10., true, true, true, false);
 	private Rule isFeatureRule = new Rule("isFeatureEnvy", "ATFD", "LAA", 4., 0.42, true, false, true, true);
 
@@ -139,9 +143,9 @@ public class GUI {
 	 * Implements all Swing components used. Includes a exit button.
 	 */
 
-	private JPanel DCI() {
+	private void DCI() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
-		JPanel DCIPanel = new JPanel();
+		DCIPanel = new JPanel();
 		String[] DCIcolumnNames = { "MethodID", "DCI" };
 		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNames);
 		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -150,12 +154,11 @@ public class GUI {
 		DCITable.setPreferredScrollableViewportSize(d1);
 		JScrollPane pane2 = new JScrollPane(DCITable);
 		DCIPanel.add(pane2, BorderLayout.CENTER);
-		return DCIPanel;
 	}
 
-	private JPanel DII() {
+	private void DII() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
-		JPanel DIIPanel = new JPanel();
+		DIIPanel = new JPanel();
 		String[] DIIcolumnNames = { "MethodID", "DII" };
 		JTable DIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[1], DIIcolumnNames);
 		DIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -164,13 +167,12 @@ public class GUI {
 		DIITable.setPreferredScrollableViewportSize(d2);
 		JScrollPane pane3 = new JScrollPane(DIITable);
 		DIIPanel.add(pane3, BorderLayout.CENTER);
-		return DIIPanel;
 	}
 
-	private JPanel ADCI() {
+	private void ADCI() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
 
-		JPanel ADCIPanel = new JPanel();
+		ADCIPanel = new JPanel();
 		String[] ADCIcolumnNames = { "MethodID", "ADCI" };
 		JTable ADCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[2], ADCIcolumnNames);
 		ADCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -179,12 +181,11 @@ public class GUI {
 		ADCITable.setPreferredScrollableViewportSize(d3);
 		JScrollPane pane4 = new JScrollPane(ADCITable);
 		ADCIPanel.add(pane4, BorderLayout.CENTER);
-		return ADCIPanel;
 	}
 
-	private JPanel ADII() {
+	private void ADII() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
-		JPanel ADIIPanel = new JPanel();
+		ADIIPanel = new JPanel();
 		String[] ADIIcolumnNames = { "MethodID", "ADII" };
 		JTable ADIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[3], ADIIcolumnNames);
 		ADIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -193,7 +194,6 @@ public class GUI {
 		ADIITable.setPreferredScrollableViewportSize(d4);
 		JScrollPane pane5 = new JScrollPane(ADIITable);
 		ADIIPanel.add(pane5, BorderLayout.CENTER);
-		return ADIIPanel;
 	}
 
 	private void allDefects() {
@@ -233,14 +233,14 @@ public class GUI {
 		//
 
 		// Show DCI,DII,ADCI,ADII tables
+		allDefects();
+		container.add("DCIPanel", DCIPanel);
 
-		container.add("DCIPanel", DCI());
+		container.add("DIIPanel", DIIPanel);
 
-		container.add("DIIPanel", DII());
+		container.add("ADCIPanel", ADCIPanel);
 
-		container.add("ADCIPanel", ADCI());
-
-		container.add("ADIIPanel", ADII());
+		container.add("ADIIPanel", ADIIPanel);
 		//
 
 		JMenuBar menuBar = new JMenuBar();
