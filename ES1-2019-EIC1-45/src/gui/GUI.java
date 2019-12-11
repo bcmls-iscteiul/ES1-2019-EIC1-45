@@ -33,6 +33,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,17 +236,46 @@ public class GUI {
 		});
 		menuBar.add(IPlasmaQualityMenu);
 		
-		JMenuItem defineThreadsholds = new JMenuItem("Define Threadsholds");
-		defineThreadsholds.addActionListener(new ActionListener() {
+		JMenuItem defineThresholds = new JMenuItem("Define Thresholds");
+		JPanel thresholdPanel = new JPanel(new BorderLayout());
+		container.add("thresholdPanel", thresholdPanel);
+		defineThresholds.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				layout.show(container, "thresholdPanel");
 			}
 			
 		});
-		menuBar.add(defineThreadsholds);
+		menuBar.add(defineThresholds);
+		
+		JPanel isLongPanel = new JPanel(new GridLayout(3, 2));
+		JLabel LOCLabel = new JLabel("Define new Threshold for LOC: ");
+		JTextField LOCValue = new JTextField();
+		JLabel CYCLOLabel = new JLabel("Define new Threshold for CYCLO: ");
+		JTextField CYCLOValue = new JTextField();
+		JButton submitIsLong = new JButton("Submit isLong");
+				
+		thresholdPanel.add(isLongPanel, BorderLayout.NORTH);
+		isLongPanel.add(LOCLabel);
+		isLongPanel.add(LOCValue);
+		isLongPanel.add(CYCLOLabel);
+		isLongPanel.add(CYCLOValue);
+		isLongPanel.add(submitIsLong);
+		
+		JPanel isFeaturePanel = new JPanel(new GridLayout(3, 2));
+		JLabel ATFDLabel = new JLabel("Define new Threshold for ATFD: ");
+		JTextField ATFDValue = new JTextField();
+		JLabel LAALabel = new JLabel("Define new Threshold for LAA: ");
+		JTextField LAAValue = new JTextField();
+		JButton submitIsFeature = new JButton("Submit isFeatureEnvy");
+				
+		thresholdPanel.add(isFeaturePanel, BorderLayout.SOUTH);
+		isFeaturePanel.add(ATFDLabel);
+		isFeaturePanel.add(ATFDValue);
+		isFeaturePanel.add(LAALabel);
+		isFeaturePanel.add(LAAValue);
+		isFeaturePanel.add(submitIsFeature);
 		
 		JMenuItem visualizeRules = new JMenuItem("Visualize Rules");
 		visualizeRules.addActionListener(new ActionListener() {
