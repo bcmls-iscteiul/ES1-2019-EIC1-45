@@ -8,7 +8,7 @@ import excel.ExcelFile;
 
 
 @RunWith(JUnitPlatform.class)
-@SelectClasses({ExcelObjectTest.class, ExcelFileTest.class})
+@SelectClasses({ExcelObjectTest.class, ExcelFileTest.class, RuleTest.class})
 public class AllTests {
 
 }
