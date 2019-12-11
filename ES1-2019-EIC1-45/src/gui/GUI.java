@@ -156,7 +156,7 @@ public class GUI {
 
 	}
 
-	private Object[][] newDefectsTable(JTable table, String[] columnName, Object[][] existing, Object[] addedColumn) {
+	private Object[][] newDefectsTable(Object[][] existing, Object[] addedColumn) {
 		Object[][] newTable = new Object[existing.length + 1][excelfile.getExcelObjects().size()];
 		for (int i = 0; i < existing.length; i++) {
 			for (int j = 0; j < existing[i].length; j++) {
