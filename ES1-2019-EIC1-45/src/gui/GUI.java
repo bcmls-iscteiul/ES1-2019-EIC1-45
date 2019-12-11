@@ -90,20 +90,20 @@ public class GUI {
 	 * Create the application.
 	 */
 	public GUI() {
-		
+
 		initialize();
-		//screenSize();
+		// screenSize();
 	}
-	
+
 	private void screenSize() {
-		//size of the screen
+		// size of the screen
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-		//height of the task bar
+		// height of the task bar
 		Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration());
 		int taskBarSize = scnMax.bottom;
 
-		//available size of the screen 
+		// available size of the screen
 		frame.setLocation(screenSize.width - frame.getWidth(), screenSize.height - taskBarSize - frame.getHeight());
 	}
 
@@ -119,13 +119,12 @@ public class GUI {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//frame.setBounds(100, 100, 881, 560);
+		// frame.setBounds(100, 100, 881, 560);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(layout);
 
-		//Show Excel in GUI
+		// Show Excel in GUI
 		JPanel excelPanel = new JPanel();
-		
 
 		String[] columnNames = { "MethodID", "package", "class", "method", "LOC", "CYCLO", "ATFD", "LAA",
 				"Is Long Method", "iPlasma", "PMD", "Is feature envy" };
@@ -134,30 +133,62 @@ public class GUI {
 		ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Dimension d = ExcelTable.getPreferredSize();
 		d.height = 600;
-		ExcelTable.setPreferredScrollableViewportSize( d );
+		ExcelTable.setPreferredScrollableViewportSize(d);
 		JScrollPane pane = new JScrollPane(ExcelTable);
 		excelPanel.add(pane, BorderLayout.CENTER);
-		container.add("ExcelPanel" ,excelPanel);
+		container.add("ExcelPanel", excelPanel);
 		//
-		
-		//Show DCI,DII,ADCI,ADII tables
+
+		// Show DCI,DII,ADCI,ADII tables
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
 		JPanel DCIPanel = new JPanel();
-		String[] DCIcolumnNames = {"MethodID", "DCI"};
-		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0],DCIcolumnNames);
+		String[] DCIcolumnNames = { "MethodID", "DCI" };
+		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNames);
+		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		Dimension d1 = DCITable.getPreferredSize();
+		d1.height = 600;
+		DCITable.setPreferredScrollableViewportSize(d1);
 		JScrollPane pane2 = new JScrollPane(DCITable);
-		excelPanel.add(pane2, BorderLayout.CENTER);
-		container.add("DCIPanel", pane2);
-		
-		
-		
-		
-		
+		DCIPanel.add(pane2, BorderLayout.CENTER);
+		container.add("DCIPanel", DCIPanel);
+
+		JPanel DIIPanel = new JPanel();
+		String[] DIIcolumnNames = { "MethodID", "DII" };
+		JTable DIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[1], DIIcolumnNames);
+		DIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		Dimension d2 = DIITable.getPreferredSize();
+		d2.height = 600;
+		DIITable.setPreferredScrollableViewportSize(d2);
+		JScrollPane pane3 = new JScrollPane(DIITable);
+		DIIPanel.add(pane3, BorderLayout.CENTER);
+		container.add("DIIPanel", DIIPanel);
+
+		JPanel ADCIPanel = new JPanel();
+		String[] ADCIcolumnNames = { "MethodID", "ADCI" };
+		JTable ADCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[2], ADCIcolumnNames);
+		ADCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		Dimension d3 = DCITable.getPreferredSize();
+		d3.height = 600;
+		ADCITable.setPreferredScrollableViewportSize(d3);
+		JScrollPane pane4 = new JScrollPane(ADCITable);
+		ADCIPanel.add(pane4, BorderLayout.CENTER);
+		container.add("ADCIPanel", ADCIPanel); 
+
+		JPanel ADIIPanel = new JPanel();
+		String[] ADIIcolumnNames = { "MethodID", "DII" };
+		JTable ADIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[3], ADIIcolumnNames);
+		ADIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		Dimension d4 = ADIITable.getPreferredSize();
+		d4.height = 600;
+		ADIITable.setPreferredScrollableViewportSize(d4);
+		JScrollPane pane5 = new JScrollPane(ADIITable);
+		ADIIPanel.add(pane5, BorderLayout.CENTER);
+		container.add("ADIIPanel", ADIIPanel);
 		//
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-		
+
 		JMenuItem showExcel = new JMenuItem("Show Excel Table");
 		showExcel.addActionListener(new ActionListener() {
 
@@ -166,7 +197,7 @@ public class GUI {
 				// TODO Auto-generated method stub
 				layout.show(container, "ExcelPanel");
 			}
-			
+
 		});
 		menuBar.add(showExcel);
 
@@ -176,6 +207,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+
 			}
 
 		});
@@ -188,15 +220,36 @@ public class GUI {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 			}
-
 		});
-		menuBar.add(IPlasmaQualityMenu); 
-		// change
+		menuBar.add(IPlasmaQualityMenu);
 		
+		JMenuItem defineThreadsholds = new JMenuItem("Define Threadsholds");
+		defineThreadsholds.addActionListener(new ActionListener() {
 
-		JMenu VisualizeRulesMenu = new JMenu("Visualize Rules");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		menuBar.add(defineThreadsholds);
 		
-		container.add("DCIPanel", DCIPanel);
+		JMenuItem visualizeRules = new JMenuItem("Visualize Rules");
+		visualizeRules.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		menuBar.add(visualizeRules);
+
+		JMenu VisualizeRulesMenu = new JMenu("Quality");
+
 		JMenuItem dci = new JMenuItem("DCI");
 		dci.addActionListener(new ActionListener() {
 
@@ -214,6 +267,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				layout.show(container, "DIIPanel");
 			}
 
 		});
@@ -223,6 +277,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				layout.show(container, "ADCIPanel");
 			}
 
 		});
@@ -232,6 +287,7 @@ public class GUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				layout.show(container, "ADIIPanel");
 			}
 
 		});
@@ -241,20 +297,11 @@ public class GUI {
 		VisualizeRulesMenu.add(adci);
 		VisualizeRulesMenu.add(adii);
 
-		VisualizeRulesMenu.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
 		menuBar.add(VisualizeRulesMenu);
 
 		JPanel newRulesPanelMain = new JPanel(new BorderLayout());
-		JPanel newRulesPanelCheckBox = new JPanel(new GridLayout(2,2,10,10));
-		newRulesPanelMain.add(newRulesPanelCheckBox,BorderLayout.NORTH);
+		JPanel newRulesPanelCheckBox = new JPanel(new GridLayout(2, 2, 10, 10));
+		newRulesPanelMain.add(newRulesPanelCheckBox, BorderLayout.NORTH);
 		JMenuItem AddNewRulesMenu = new JMenuItem("Add new rules");
 		ArrayList<JCheckBox> checkboxList = new ArrayList<>();
 		JCheckBox LOCBox = new JCheckBox("LOC");
@@ -269,7 +316,7 @@ public class GUI {
 		JCheckBox LAABox = new JCheckBox("LAA");
 		checkboxList.add(LAABox);
 		newRulesPanelCheckBox.add(LAABox);
-		for(JCheckBox c : checkboxList) {
+		for (JCheckBox c : checkboxList) {
 			c.addActionListener(new ActionListener() {
 
 				@Override
@@ -277,10 +324,10 @@ public class GUI {
 					int count = 0;
 					for (JCheckBox c : checkboxList) {
 						if (c.isSelected()) {
-							count +=1;
+							count += 1;
 						}
 						if (count > 2) {
-							JCheckBox check =(JCheckBox) e.getSource();
+							JCheckBox check = (JCheckBox) e.getSource();
 							check.setSelected(false);
 							JOptionPane.showMessageDialog(null, "You can only select 2 checkboxes");
 						}
@@ -289,27 +336,27 @@ public class GUI {
 			});
 		}
 		ButtonGroup methodChooser = new ButtonGroup();
-		JRadioButton is_feature_envy = new JRadioButton("is_feature_envy",true);
+		JRadioButton is_feature_envy = new JRadioButton("is_feature_envy", true);
 		JRadioButton is_long_method = new JRadioButton("is_long_method");
 		methodChooser.add(is_feature_envy);
 		methodChooser.add(is_long_method);
 		ButtonGroup andOr = new ButtonGroup();
-		JRadioButton andButton = new JRadioButton("And",true);
+		JRadioButton andButton = new JRadioButton("And", true);
 		JRadioButton orButton = new JRadioButton("Or");
 		andOr.add(andButton);
 		andOr.add(orButton);
 		ButtonGroup moreLessArg1 = new ButtonGroup();
-		JRadioButton biggerButtonArg1 = new JRadioButton("Arg 1 >",true);
+		JRadioButton biggerButtonArg1 = new JRadioButton("Arg 1 >", true);
 		JRadioButton smallerButtonArg1 = new JRadioButton("Arg 1 <");
 		moreLessArg1.add(biggerButtonArg1);
 		moreLessArg1.add(smallerButtonArg1);
 		ButtonGroup moreLessArg2 = new ButtonGroup();
-		JRadioButton biggerButtonArg2 = new JRadioButton("Arg 1 >",true);
+		JRadioButton biggerButtonArg2 = new JRadioButton("Arg 1 >", true);
 		JRadioButton smallerButtonArg2 = new JRadioButton("Arg 2 <");
 		moreLessArg2.add(biggerButtonArg2);
 		moreLessArg2.add(smallerButtonArg2);
-		JPanel newRulesPanelRadioButtons = new JPanel(new GridLayout(4,2));
-		newRulesPanelMain.add(newRulesPanelRadioButtons,BorderLayout.CENTER);
+		JPanel newRulesPanelRadioButtons = new JPanel(new GridLayout(4, 2));
+		newRulesPanelMain.add(newRulesPanelRadioButtons, BorderLayout.CENTER);
 		newRulesPanelRadioButtons.add(is_feature_envy);
 		newRulesPanelRadioButtons.add(is_long_method);
 		newRulesPanelRadioButtons.add(andButton);
@@ -319,8 +366,8 @@ public class GUI {
 		newRulesPanelRadioButtons.add(biggerButtonArg2);
 		newRulesPanelRadioButtons.add(smallerButtonArg2);
 
-		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(3,2));
-		newRulesPanelMain.add(newRulesPanelTextFields,BorderLayout.SOUTH);
+		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(3, 2));
+		newRulesPanelMain.add(newRulesPanelTextFields, BorderLayout.SOUTH);
 		JLabel arg1Label = new JLabel("Insert Threshold for the first argument:");
 		JTextField arg1Value = new JTextField();
 		JLabel arg2Label = new JLabel("Insert Threshold for the second argument:");
@@ -333,16 +380,16 @@ public class GUI {
 				int checkBoxCount = 0;
 				String Arg1 = "";
 				String Arg2 = "";
-				for(JCheckBox c : checkboxList) {
-					if(Arg1.equals("")&&c.isSelected()) {
+				for (JCheckBox c : checkboxList) {
+					if (Arg1.equals("") && c.isSelected()) {
 						Arg1 = c.getText();
 						checkBoxCount++;
-					}else if (Arg2.equals("")&& c.isSelected()){
+					} else if (Arg2.equals("") && c.isSelected()) {
 						Arg2 = c.getText();
 						checkBoxCount++;
 					}
 				}
-				if(checkBoxCount == 2 && !arg1Value.getText().equals("") && !arg2Value.getText().equals("")) {
+				if (checkBoxCount == 2 && !arg1Value.getText().equals("") && !arg2Value.getText().equals("")) {
 					Double threshold1, threshold2;
 					try {
 						threshold1 = Double.parseDouble(arg1Value.getText());
@@ -352,102 +399,103 @@ public class GUI {
 						return;
 					}
 					Boolean greaterArg1 = false;
-					if(biggerButtonArg1.isSelected()) {
+					if (biggerButtonArg1.isSelected()) {
 						greaterArg1 = true;
 					}
 					Boolean greaterArg2 = false;
-					if(biggerButtonArg2.isSelected()) {
+					if (biggerButtonArg2.isSelected()) {
 						greaterArg2 = true;
 					}
 					Boolean andValue = false;
-					if(andButton.isSelected()) {
+					if (andButton.isSelected()) {
 						andValue = true;
 					}
 					Boolean isFeatureEnvy = false;
-					if(is_feature_envy.isSelected()) {
-						isFeatureEnvy=true;
+					if (is_feature_envy.isSelected()) {
+						isFeatureEnvy = true;
 					}
-					calculateNewRule(Arg1,Arg2,threshold1,threshold2,greaterArg1,greaterArg2,andValue,isFeatureEnvy);
-					layout.show(container,"ExcelPanel");
-					//newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
-					//excelPanel.setVisible(!excelPanel.isVisible());
-				}else if(checkBoxCount!=2) {
+					calculateNewRule(Arg1, Arg2, threshold1, threshold2, greaterArg1, greaterArg2, andValue,
+							isFeatureEnvy);
+					layout.show(container, "ExcelPanel");
+					// newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
+					// excelPanel.setVisible(!excelPanel.isVisible());
+				} else if (checkBoxCount != 2) {
 					JOptionPane.showMessageDialog(null, "You must select two arguments.");
-				}else if (arg1Value.getText().equals("")||arg2Value.getText().equals("")) {
+				} else if (arg1Value.getText().equals("") || arg2Value.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Make sure you entered both values for the thresholds.");
 				}
 
 			}
 
 			private void calculateNewRule(String arg1, String arg2, Double threshold1, Double threshold2,
-					Boolean greaterArg1, Boolean greaterArg2, Boolean andValue,Boolean isFeatureEnvy) {
-				for(int i =0; i<ExcelTable.getRowCount();i++) {
-					double arg1Value,arg2Value;
-					switch(arg1) {
-						case("LOC"):
-							arg1Value = (double) ExcelTable.getValueAt(i, 4);
-							System.out.println(arg1Value);
-							break;
-						case("CYCLO"):
-							arg1Value = (double) ExcelTable.getValueAt(i, 5);
-							System.out.println(arg1Value);
-							break;
-						case("AFTD"):
-							arg1Value = (double) ExcelTable.getValueAt(i, 6);
-							System.out.println(arg1Value);
-							break;
-						default:
-							arg1Value = 0;
+					Boolean greaterArg1, Boolean greaterArg2, Boolean andValue, Boolean isFeatureEnvy) {
+				for (int i = 0; i < ExcelTable.getRowCount(); i++) {
+					double arg1Value, arg2Value;
+					switch (arg1) {
+					case ("LOC"):
+						arg1Value = (double) ExcelTable.getValueAt(i, 4);
+						System.out.println(arg1Value);
+						break;
+					case ("CYCLO"):
+						arg1Value = (double) ExcelTable.getValueAt(i, 5);
+						System.out.println(arg1Value);
+						break;
+					case ("AFTD"):
+						arg1Value = (double) ExcelTable.getValueAt(i, 6);
+						System.out.println(arg1Value);
+						break;
+					default:
+						arg1Value = 0;
 					}
-					switch(arg2) {
-						case("CYCLO"):
-							arg2Value = (double) ExcelTable.getValueAt(i, 5);
-							System.out.println(arg2Value);
-							break;
-						case("AFTD"):
-							arg2Value = (double) ExcelTable.getValueAt(i, 6);
-							System.out.println(arg2Value);
-							break;
-						case("LAA"):
-							arg2Value = (double) ExcelTable.getValueAt(i, 7);
-							System.out.println(arg2Value);
-							break;
-						default:
-							arg2Value = 0;
+					switch (arg2) {
+					case ("CYCLO"):
+						arg2Value = (double) ExcelTable.getValueAt(i, 5);
+						System.out.println(arg2Value);
+						break;
+					case ("AFTD"):
+						arg2Value = (double) ExcelTable.getValueAt(i, 6);
+						System.out.println(arg2Value);
+						break;
+					case ("LAA"):
+						arg2Value = (double) ExcelTable.getValueAt(i, 7);
+						System.out.println(arg2Value);
+						break;
+					default:
+						arg2Value = 0;
 					}
-					Boolean isTrue=false;
-					if(greaterArg1&&greaterArg2&&andValue) {
-						isTrue = arg1Value >= threshold1 && arg2Value >=threshold2;
+					Boolean isTrue = false;
+					if (greaterArg1 && greaterArg2 && andValue) {
+						isTrue = arg1Value >= threshold1 && arg2Value >= threshold2;
 						System.out.println("> > &&");
-					}else if(greaterArg1&&greaterArg2&&!andValue) {
-						isTrue = arg1Value >= threshold1 || arg2Value >= threshold2; 
+					} else if (greaterArg1 && greaterArg2 && !andValue) {
+						isTrue = arg1Value >= threshold1 || arg2Value >= threshold2;
 						System.out.println("> > ||");
-					}else if(greaterArg1&&!greaterArg2&&andValue) {
-						isTrue = arg1Value >= threshold1 && arg2Value < threshold2; 
+					} else if (greaterArg1 && !greaterArg2 && andValue) {
+						isTrue = arg1Value >= threshold1 && arg2Value < threshold2;
 						System.out.println("> < &&");
-					}else if(greaterArg1&&!greaterArg2&&!andValue) {
-						isTrue = arg1Value >= threshold1 || arg2Value < threshold2; 
+					} else if (greaterArg1 && !greaterArg2 && !andValue) {
+						isTrue = arg1Value >= threshold1 || arg2Value < threshold2;
 						System.out.println("> < ||");
-					}else if(!greaterArg1&&greaterArg2&&andValue) {
+					} else if (!greaterArg1 && greaterArg2 && andValue) {
 						isTrue = arg1Value < threshold1 && arg2Value >= threshold2;
 						System.out.println("< > &&");
-					}else if(!greaterArg1&&greaterArg2&&!andValue) {
+					} else if (!greaterArg1 && greaterArg2 && !andValue) {
 						isTrue = arg1Value < threshold1 || arg2Value >= threshold2;
 						System.out.println("< > ||");
-					}else if(!greaterArg1&&!greaterArg2&&andValue) {
-						isTrue = arg1Value < threshold1 && arg2Value < threshold2; 
+					} else if (!greaterArg1 && !greaterArg2 && andValue) {
+						isTrue = arg1Value < threshold1 && arg2Value < threshold2;
 						System.out.println("< < &&");
-					}else if(!greaterArg1&&!greaterArg2&&!andValue) {
-						isTrue = arg1Value < threshold1 || arg2Value >= threshold2; 
+					} else if (!greaterArg1 && !greaterArg2 && !andValue) {
+						isTrue = arg1Value < threshold1 || arg2Value >= threshold2;
 						System.out.println("< < ||");
 					}
-					if(isFeatureEnvy) {
+					if (isFeatureEnvy) {
 						ExcelTable.setValueAt(isTrue, i, 11);
-					}else {
+					} else {
 						ExcelTable.setValueAt(isTrue, i, 8);
 					}
 				}
-				
+
 			}
 		});
 		newRulesPanelTextFields.add(arg1Label);
@@ -456,9 +504,7 @@ public class GUI {
 		newRulesPanelTextFields.add(arg2Value);
 		newRulesPanelTextFields.add(submitButton);
 
-
-
-		container.add("AddNewRules",newRulesPanelMain);
+		container.add("AddNewRules", newRulesPanelMain);
 		AddNewRulesMenu.addActionListener(new ActionListener() {
 
 			@Override
@@ -466,7 +512,7 @@ public class GUI {
 				// TODO Auto-generated method stub
 				layout.show(container, "AddNewRules");
 			}
-			
+
 		});
 		menuBar.add(AddNewRulesMenu);
 
@@ -481,11 +527,10 @@ public class GUI {
 
 		});
 		menuBar.add(exitMenu);
-		//frame.getContentPane().add(excelPanel);
-		//frame.getContentPane().add(newRulesPanelMain);
-		//newRulesPanelMain.setVisible(false);
+		// frame.getContentPane().add(excelPanel);
+		// frame.getContentPane().add(newRulesPanelMain);
+		// newRulesPanelMain.setVisible(false);
 	}
-
 
 	private Object[][] convertToStringMatrix() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
@@ -501,30 +546,30 @@ public class GUI {
 		return matrixGUI;
 
 	}
-	
+
 	public Object[] convertRulesToGUI() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
-		int contador=0;
+		int contador = 0;
 		Object[][] tempDCI = new Object[list.size()][list.size()];
 		Object[][] tempDII = new Object[list.size()][list.size()];
 		Object[][] tempADCI = new Object[list.size()][list.size()];
 		Object[][] tempADII = new Object[list.size()][list.size()];
-		for(ExcelObject eo: list) {
+		for (ExcelObject eo : list) {
 			boolean dci = eo.defineIndicators(eo)[0];
 			boolean dii = eo.defineIndicators(eo)[1];
 			boolean adci = eo.defineIndicators(eo)[2];
 			boolean adii = eo.defineIndicators(eo)[3];
-			Object[] tempDCIM = { eo.getMethod(),dci};
+			Object[] tempDCIM = { eo.getId(), dci };
 			tempDCI[contador] = tempDCIM;
-			Object[] tempDIIM = { eo.getMethod(),dii};
+			Object[] tempDIIM = { eo.getId(), dii };
 			tempDII[contador] = tempDIIM;
-			Object[] tempADCIM = { eo.getMethod(),adci};
+			Object[] tempADCIM = { eo.getId(), adci };
 			tempADCI[contador] = tempADCIM;
-			Object[] tempADIIM = { eo.getMethod(),adii};
+			Object[] tempADIIM = { eo.getId(), adii };
 			tempADII[contador] = tempADIIM;
 			contador++;
 		}
-		Object[] final_list = {tempDCI,tempDII,tempADCI,tempADII};
+		Object[] final_list = { tempDCI, tempDII, tempADCI, tempADII };
 		return final_list;
 	}
 }
