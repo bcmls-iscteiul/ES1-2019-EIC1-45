@@ -97,6 +97,7 @@ public class GUI {
 
 	/**
 	 * Rules List
+	 * 
 	 * @see calculateNewRule(Rule newRule)
 	 */
 
@@ -152,10 +153,9 @@ public class GUI {
 		ruleList.add(isFeatureRule);
 		ruleList.add(isLongRule);
 		initialize();
-		
+
 	}
 
-	
 	/**
 	 * Implements the DCI Panel in the GUI
 	 */
@@ -172,7 +172,7 @@ public class GUI {
 		JScrollPane pane2 = new JScrollPane(DCITable);
 		DCIPanel.add(pane2, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	 * Implements the DII Panel in the GUI
 	 */
@@ -206,7 +206,7 @@ public class GUI {
 		JScrollPane pane4 = new JScrollPane(ADCITable);
 		ADCIPanel.add(pane4, BorderLayout.CENTER);
 	}
-	
+
 	/**
 	 * Implements the ADII Panel in the GUI
 	 */
@@ -223,6 +223,7 @@ public class GUI {
 		JScrollPane pane5 = new JScrollPane(ADIITable);
 		ADIIPanel.add(pane5, BorderLayout.CENTER);
 	}
+
 	/**
 	 * Calls all defects methods
 	 */
@@ -291,8 +292,6 @@ public class GUI {
 
 		});
 		menuBar.add(showExcel);
-
-		
 
 		JMenuItem defineThresholds = new JMenuItem("Define Thresholds");
 		JPanel thresholdPanel = new JPanel(new BorderLayout());
@@ -796,6 +795,28 @@ public class GUI {
 			}
 		}
 
+	}
+
+	public void refreshTables() {
+		// INVOCAR CONSTRUCOES DE PAINEL P CADA
+		DCI();
+		DII();
+		ADCI();
+		ADII();
+		getFrame().repaint();
+		getFrame().validate();
+	}
+
+	public String[] arrayListToArray(ArrayList<String> lista) {
+		int size = lista.size();
+		int count = 0;
+		String[] array = new String[size];
+		for (String s : lista) {
+			System.out.println("ARRAYLIST TO ARRAY: " + s);
+			array[count] = s;
+			count++;
+		}
+		return array;
 	}
 
 }
