@@ -96,15 +96,34 @@ public class GUI {
 	private CardLayout layout = new CardLayout();
 
 	/**
-	 * Launch the application.
+	 * Rules List
+	 * @see calculateNewRule(Rule newRule)
 	 */
 
 	private ArrayList<Rule> ruleList;
+	/**
+	 * JPanel of the DCI Panel
+	 */
 	JPanel DCIPanel;
+	/**
+	 * JPanel of the DII Panel
+	 */
 	JPanel DIIPanel;
+	/**
+	 * JPanel of the ADCI Panel
+	 */
 	JPanel ADCIPanel;
+	/**
+	 * JPanel of the ADII Panel
+	 */
 	JPanel ADIIPanel;
+	/**
+	 * Creates the isLongRule Rule
+	 */
 	private Rule isLongRule = new Rule("isLong", "LOC", "CYCLO", 80., 10., true, true, true, false);
+	/**
+	 * Creates the isFeatureEnvy Rule
+	 */
 	private Rule isFeatureRule = new Rule("isFeatureEnvy", "ATFD", "LAA", 4., 0.42, true, false, true, true);
 
 	public static void main(String[] args) {
@@ -117,9 +136,6 @@ public class GUI {
 					window.frame.pack();
 					window.frame.setResizable(false);
 					window.frame.setVisible(true);
-					/*
-					 * needs to be full table needs to ocupy full right side
-					 */
 				} catch (Exception e) {
 					e.printStackTrace();
 
@@ -136,11 +152,12 @@ public class GUI {
 		ruleList.add(isFeatureRule);
 		ruleList.add(isLongRule);
 		initialize();
-		// screenSize();
+		
 	}
 
+	
 	/**
-	 * Implements all Swing components used. Includes a exit button.
+	 * Implements the DCI Panel in the GUI
 	 */
 
 	private void DCI() {
@@ -155,6 +172,10 @@ public class GUI {
 		JScrollPane pane2 = new JScrollPane(DCITable);
 		DCIPanel.add(pane2, BorderLayout.CENTER);
 	}
+	
+	/**
+	 * Implements the DII Panel in the GUI
+	 */
 
 	private void DII() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
@@ -169,6 +190,9 @@ public class GUI {
 		DIIPanel.add(pane3, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Implements the ADCI Panel in the GUI
+	 */
 	private void ADCI() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
 
@@ -182,6 +206,10 @@ public class GUI {
 		JScrollPane pane4 = new JScrollPane(ADCITable);
 		ADCIPanel.add(pane4, BorderLayout.CENTER);
 	}
+	
+	/**
+	 * Implements the ADII Panel in the GUI
+	 */
 
 	private void ADII() {
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
@@ -195,6 +223,9 @@ public class GUI {
 		JScrollPane pane5 = new JScrollPane(ADIITable);
 		ADIIPanel.add(pane5, BorderLayout.CENTER);
 	}
+	/**
+	 * Calls all defects methods
+	 */
 
 	private void allDefects() {
 		DCI();
@@ -203,6 +234,9 @@ public class GUI {
 		ADII();
 	}
 
+	/**
+	 * Implements all Swing components used. Includes a exit button.
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		container = frame.getContentPane();
@@ -258,28 +292,7 @@ public class GUI {
 		});
 		menuBar.add(showExcel);
 
-		JMenuItem PMDQualityMenu = new JMenuItem("PMD Quality");
-		PMDQualityMenu.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		menuBar.add(PMDQualityMenu);
-
-		JMenuItem IPlasmaQualityMenu = new JMenuItem("iPlasma Quality\r\n");
-		IPlasmaQualityMenu.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-			}
-		});
-
-		menuBar.add(IPlasmaQualityMenu);
+		
 
 		JMenuItem defineThresholds = new JMenuItem("Define Thresholds");
 		JPanel thresholdPanel = new JPanel(new BorderLayout());
@@ -685,6 +698,7 @@ public class GUI {
 	 */
 
 	public Object[] convertRulesToGUI() {
+
 		List<ExcelObject> list = excelfile.getExcelObjects();
 		int contador = 0;
 		Object[][] tempDCI = new Object[list.size()][list.size()];
@@ -710,6 +724,10 @@ public class GUI {
 		return final_list;
 	}
 
+	/**
+	 * Calculates new Rules
+	 * 
+	 */
 	private void calculateNewRule(Rule newRule) {
 		for (int i = 0; i < this.ExcelTable.getRowCount(); i++) {
 			double arg1Value, arg2Value;
