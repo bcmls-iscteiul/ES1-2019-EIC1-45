@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -54,12 +55,34 @@ import javax.swing.JTextField;
 import excel.ExcelFile;
 import excel.ExcelObject;
 
+/** This class represents a line of the excel file.
+ * 
+ * @author Bernando Sequeira
+ * @author Joao Pinto
+ *
+ */
+
 public class GUI {
 
+	/**
+	 * Main Frame used
+	 */
 	private JFrame frame;
+	/**
+	 * JTable used to show the Excel file
+	 */
 	private JTable ExcelTable;
+	/**
+	 * Object containing the Excel File(Apache)
+	 */
 	private ExcelFile excelfile;
+	/**
+	 * Container used along with CardLayout
+	 */
 	private Container container;
+	/**
+	 * Defining CardLayout
+	 */
 	private CardLayout layout = new CardLayout();
 
 	/**
@@ -94,21 +117,10 @@ public class GUI {
 		initialize();
 		// screenSize();
 	}
-
-	private void screenSize() {
-		// size of the screen
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		// height of the task bar
-		Insets scnMax = Toolkit.getDefaultToolkit().getScreenInsets(frame.getGraphicsConfiguration());
-		int taskBarSize = scnMax.bottom;
-
-		// available size of the screen
-		frame.setLocation(screenSize.width - frame.getWidth(), screenSize.height - taskBarSize - frame.getHeight());
-	}
+	
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Implements all Swing components used. Includes a exit button.
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -532,6 +544,10 @@ public class GUI {
 		// newRulesPanelMain.setVisible(false);
 	}
 
+	/**
+	 * Gets the excelfile in an ExcelFile object
+	 * @return matrix containing every row and column in Strings
+	 */
 	private Object[][] convertToStringMatrix() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
 		Object[][] matrixGUI = new Object[list.size()][12];
@@ -546,6 +562,10 @@ public class GUI {
 		return matrixGUI;
 
 	}
+	/**
+	 * Gets the boolean array which defines the DCI, DII, ADCI, ADII(Qualities)
+	 * @return array with 4 arrays containing the ID of the method and the boolen related to the rule
+	 */
 
 	public Object[] convertRulesToGUI() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
