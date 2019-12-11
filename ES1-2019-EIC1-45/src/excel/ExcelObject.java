@@ -317,15 +317,15 @@ public class ExcelObject {
 		this.is_feature_envy = is_feature_envy;
 	}
 	
-	public boolean[] defineIndicators(ExcelObject obj) {
+	public boolean[] defineIndicators() {
 		boolean[] values = new boolean[4];
-		if((obj.isiPlasma() || obj.isPMD()) && obj.is_long_method) 
+		if((this.isiPlasma() || this.isPMD()) && this.is_long_method) 
 			values[0]=true;
-		if((obj.isiPlasma() || obj.isPMD()) && !obj.is_long_method)
+		if((this.isiPlasma() || this.isPMD()) && !this.is_long_method)
 			values[1]=true;
-		if((!obj.isiPlasma() || !obj.isPMD()) && !obj.is_long_method)
+		if((!this.isiPlasma() || !this.isPMD()) && !this.is_long_method)
 			values[2]=true;
-		if((!obj.isiPlasma() || !obj.isPMD()) && obj.is_long_method)
+		if((!this.isiPlasma() || !this.isPMD()) && this.is_long_method)
 			values[3]=true;
 		return values;
 	}
