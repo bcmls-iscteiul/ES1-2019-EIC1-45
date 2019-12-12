@@ -175,6 +175,7 @@ public class GUI {
 	 */
 
 	private void DCI() {
+		boolean flag = false;
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
 		DCIPanel = new JPanel();
 		ArrayList<String> DCIcolumnNames = new ArrayList<String>();
@@ -186,16 +187,24 @@ public class GUI {
 			for (int i = 2; i < ruleList.size(); i++) {
 				DCIcolumnNames.add("NewRule" + count);
 				count++;
+				flag = true;
 			}
 		}
+		//APPEND TABELA
+		Object[][] updatedList = (Object[][])listDCI_DII_ADCI_ADII[0];
+		if(flag) {
+			updatedList = newDefectsTable((Object[][])listDCI_DII_ADCI_ADII[0], fillNewColumn());
+		}
+		
+		
 		String[] DCIcolumnNamesRevised = arrayListToArray(DCIcolumnNames);
-
-		for (int i = 0; i < DCIcolumnNamesRevised.length; i++) {
+		
+		for(int i = 0; i < DCIcolumnNamesRevised.length; i++ ) {
 			System.out.println("SYSOUT REVISED: " + DCIcolumnNamesRevised[i]);
 		}
-
+		
 		// String[] DCIcolumnNames = { "MethodID", "DCI" };
-		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNamesRevised);
+		JTable DCITable = new JTable( updatedList, DCIcolumnNamesRevised);
 		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Dimension d1 = DCITable.getPreferredSize();
 		d1.height = 600;
@@ -350,6 +359,7 @@ public class GUI {
 				isLongRule.setThreshold1(Double.parseDouble(LOCValue.getText()));
 				isLongRule.setThreshold2(Double.parseDouble(CYCLOValue.getText()));
 				allDefects();
+				refreshTables();
 				getFrame().repaint();
 				getFrame().validate();
 			}
@@ -375,6 +385,7 @@ public class GUI {
 				isFeatureRule.setThreshold1(Double.parseDouble(ATFDValue.getText()));
 				isFeatureRule.setThreshold2(Double.parseDouble(LAAValue.getText()));
 				allDefects();
+				refreshTables();
 				getFrame().repaint();
 				getFrame().validate();
 			}
@@ -570,7 +581,7 @@ public class GUI {
 				} else if (arg1Value.getText().equals("") || arg2Value.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Make sure you entered both values for the thresholds.");
 				}
-
+				refreshTables();
 			}
 
 		});
@@ -850,4 +861,21 @@ public class GUI {
 		return array;
 	}
 
+	public Object[] fillNewColumn() {
+		List<ExcelObject> list = excelfile.getExcelObjects();
+		int contador = 0;
+		Object[][] tempDCI = new Object[list.size()][list.size()];
+		
+		for (ExcelObject eo : list) {
+			boolean dci = eo.defineIndicators(eo)[0];
+			Object[] tempDCIM = { eo.getId(), dci };
+			tempDCI[contador] = tempDCIM;
+			
+		}
+		Object[] final_list = {tempDCI};
+		return final_list;
+	}
+	
+	
+	
 }
