@@ -330,6 +330,19 @@ public class ExcelObject {
 		return values;
 	}
 	
+	public boolean[] defineIndicators(boolean iPlasma, boolean PMD, boolean is_Long_Method) {
+		boolean[] values = new boolean[4];
+		if((iPlasma || PMD) && is_long_method) 
+			values[0]=true;
+		if((iPlasma ||PMD) && !is_long_method)
+			values[1]=true;
+		if((!iPlasma || !PMD) && !is_long_method)
+			values[2]=true;
+		if((!iPlasma || !PMD) && is_long_method)
+			values[3]=true;
+		return values;
+	}
+	
 	/**
 	 * 
 	 * @return a string following the format "ExcelObject [id=id]"

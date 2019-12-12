@@ -177,42 +177,16 @@ public class GUI {
 	 */
 
 	private void DCI() {
-		boolean flag = false;
 		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();
 		DCIPanel = new JPanel();
-		ArrayList<String> DCIcolumnNames = new ArrayList<String>();
-		DCIcolumnNames.add("MethodID");
-		DCIcolumnNames.add("DCI");
-		// if regras
-		if (ruleList.size() > 2) {
-			int count = 1;
-			for (int i = 2; i < ruleList.size(); i++) {
-				DCIcolumnNames.add("NewRule" + count);
-				count++;
-				flag = true;
-			}
-		}
-		//APPEND TABELA
-		Object[][] updatedList = (Object[][])listDCI_DII_ADCI_ADII[0];
-		if(flag) {
-			updatedList = newDefectsTable(updatedList, fillNewColumn());
-		}
-		
-		
-		String[] DCIcolumnNamesRevised = arrayListToArray(DCIcolumnNames);
-		
-		for(int i = 0; i < DCIcolumnNamesRevised.length; i++ ) {
-			System.out.println("SYSOUT REVISED: " + DCIcolumnNamesRevised[i]);
-		}
-		
-		// String[] DCIcolumnNames = { "MethodID", "DCI" };
-		JTable DCITable = new JTable( updatedList, DCIcolumnNamesRevised);
+		String[] DCIcolumnNames = { "MethodID", "DCI" };
+		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNames);
 		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Dimension d1 = DCITable.getPreferredSize();
 		d1.height = 600;
 		DCITable.setPreferredScrollableViewportSize(d1);
-		JScrollPane pane2 = new JScrollPane(DCITable);
-		DCIPanel.add(pane2, BorderLayout.CENTER);
+		JScrollPane pane1 = new JScrollPane(DCITable);
+		DCIPanel.add(pane1, BorderLayout.CENTER);
 	}
 
 	/**
@@ -629,35 +603,27 @@ public class GUI {
 					if (r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " > " + r.getThreshold1() + " && " + r.getArg2() + " > "
 								+ r.getThreshold2();
-						System.out.println("> > &&");
 					} else if (r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " > " + r.getThreshold1() + " || " + r.getArg2() + " > "
 								+ r.getThreshold2();
-						System.out.println("> > ||");
 					} else if (r.getGreaterArg1() && !r.getGreaterArg2() && r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " > " + r.getThreshold1() + " && " + r.getArg2() + " < "
 								+ r.getThreshold2();
-						System.out.println("> < &&");
 					} else if (r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " > " + r.getThreshold1() + " || " + r.getArg2() + " < "
 								+ r.getThreshold2();
-						System.out.println("> < ||");
 					} else if (!r.getGreaterArg1() && r.getGreaterArg2() && r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " < " + r.getThreshold1() + " && " + r.getArg2() + " > "
 								+ r.getThreshold2();
-						System.out.println("< > &&");
 					} else if (!r.getGreaterArg1() && r.getGreaterArg2() && !r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " < " + r.getThreshold1() + " || " + r.getArg2() + " > "
 								+ r.getThreshold2();
-						System.out.println("< > ||");
 					} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " < " + r.getThreshold1() + " && " + r.getArg2() + " < "
 								+ r.getThreshold2();
-						System.out.println("< < &&");
 					} else if (!r.getGreaterArg1() && !r.getGreaterArg2() && !r.getAndValue()) {
 						labelText = r.getName() + r.getArg1() + " < " + r.getThreshold1() + " || " + r.getArg2() + " < "
 								+ r.getThreshold2();
-						System.out.println("< < ||");
 					}
 					JLabel label = new JLabel(labelText);
 					visualizeRulesPanel.add(label);
@@ -809,28 +775,20 @@ public class GUI {
 			Boolean isTrue = false;
 			if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
 				isTrue = arg1Value >= newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
-				System.out.println("> > &&");
 			} else if (newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
 				isTrue = arg1Value >= newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
-				System.out.println("> > ||");
 			} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
 				isTrue = arg1Value >= newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
-				System.out.println("> < &&");
 			} else if (newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
 				isTrue = arg1Value >= newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
-				System.out.println("> < ||");
 			} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && newRule.getAndValue()) {
 				isTrue = arg1Value < newRule.getThreshold1() && arg2Value >= newRule.getThreshold2();
-				System.out.println("< > &&");
 			} else if (!newRule.getGreaterArg1() && newRule.getGreaterArg2() && !newRule.getAndValue()) {
 				isTrue = arg1Value < newRule.getThreshold1() || arg2Value >= newRule.getThreshold2();
-				System.out.println("< > ||");
 			} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && newRule.getAndValue()) {
 				isTrue = arg1Value < newRule.getThreshold1() && arg2Value < newRule.getThreshold2();
-				System.out.println("< < &&");
 			} else if (!newRule.getGreaterArg1() && !newRule.getGreaterArg2() && !newRule.getAndValue()) {
 				isTrue = arg1Value < newRule.getThreshold1() || arg2Value < newRule.getThreshold2();
-				System.out.println("< < ||");
 			}
 			if (newRule.getIsFeatureEnvy()) {
 				this.ExcelTable.setValueAt(isTrue, i, 11);
@@ -863,20 +821,7 @@ public class GUI {
 		return array;
 	}
 
-	public Object[] fillNewColumn() {
-		List<ExcelObject> list = excelfile.getExcelObjects();
-		int contador = 0;
-		Object[] tempDCI = new Object[list.size()];
-		
-		for (ExcelObject eo : list) {
-			boolean dci = eo.defineIndicators(eo)[0];
-			//Object[] tempDCIM = dci ;
-			tempDCI[contador] = dci;
-			
-		}
-		Object[] final_list = tempDCI;
-		return final_list;
-	}
+	
 	
 	
 	
