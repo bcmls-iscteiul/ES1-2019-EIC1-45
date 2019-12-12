@@ -65,6 +65,7 @@ import excel.ExcelObject;
  * 
  * @author Bernando Sequeira
  * @author Joao Pinto
+ * @author Tomas Godinho
  *
  */
 
@@ -157,6 +158,7 @@ public class GUI {
 	}
 
 	private Object[][] newDefectsTable(Object[][] existing, Object[] addedColumn) {
+		if(addedColumn==null) throw new IllegalStateException("new addedColumn is empty");
 		Object[][] newTable = new Object[existing.length + 1][excelfile.getExcelObjects().size()];
 		for (int i = 0; i < existing.length; i++) {
 			for (int j = 0; j < existing[i].length; j++) {
@@ -164,7 +166,7 @@ public class GUI {
 			}
 		}
 		for(int i=0;i<existing[0].length;i++) {
-			newTable[existing.length+1][i]= addedColumn[i];
+			newTable[existing.length][i]= addedColumn[i];
 		}
 		return newTable;
 
@@ -193,7 +195,7 @@ public class GUI {
 		//APPEND TABELA
 		Object[][] updatedList = (Object[][])listDCI_DII_ADCI_ADII[0];
 		if(flag) {
-			updatedList = newDefectsTable((Object[][])listDCI_DII_ADCI_ADII[0], fillNewColumn());
+			updatedList = newDefectsTable(updatedList, fillNewColumn());
 		}
 		
 		
@@ -864,15 +866,15 @@ public class GUI {
 	public Object[] fillNewColumn() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
 		int contador = 0;
-		Object[][] tempDCI = new Object[list.size()][list.size()];
+		Object[] tempDCI = new Object[list.size()];
 		
 		for (ExcelObject eo : list) {
 			boolean dci = eo.defineIndicators(eo)[0];
-			Object[] tempDCIM = { eo.getId(), dci };
-			tempDCI[contador] = tempDCIM;
+			//Object[] tempDCIM = dci ;
+			tempDCI[contador] = dci;
 			
 		}
-		Object[] final_list = {tempDCI};
+		Object[] final_list = tempDCI;
 		return final_list;
 	}
 	
