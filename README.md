@@ -21,6 +21,8 @@ Erros: -Ao editar uma regra, caso o utilizador carregue noutro separador sem car
 
 -Devido a um erro, o projeto java encontra-se dentro de um projeto, e a sua diretoria é /ES1-2019-EIC1-45/ES1-2019-EIC1-45/
 
-Nota: Os ficheiros do software process mining encontram-se na directoria /ES1-2019-EIC1-45/SDPM/ . O aluno Nuno Rego não inseriu as credenciais no workspace onde realizou o seu trabalho, como tal, não tem os ficheiros do software.
+Notas: Os ficheiros do software process mining encontram-se na directoria /ES1-2019-EIC1-45/SDPM/ . O aluno Nuno Rego não inseriu as credenciais no workspace onde realizou o seu trabalho, como tal, não tem os ficheiros do software.
 
-O relatorio do eclema /ES1-2019-EIC1-45/ES1-2019-EIC1-45/src/tests/
+O relatorio do eclema encontra-se na diretoria /ES1-2019-EIC1-45/ES1-2019-EIC1-45/src/tests/
+
+O aluno Bernardo Sequeira usou a sua conta pessoal do Github ao criar o repositório, mas apenas realizou um commit com essa mesma conta. O resto do seu trabalho desenvolvido foi realizado com a conta no formato pedido.
