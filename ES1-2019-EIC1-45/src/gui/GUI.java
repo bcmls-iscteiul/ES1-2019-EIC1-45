@@ -128,24 +128,8 @@ public class GUI {
 	 */
 	private Rule isFeatureRule = new Rule("isFeatureEnvy", "ATFD", "LAA", 4., 0.42, true, false, true, true);
 
-	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI window = new GUI();
-					window.convertToStringMatrix();
-					window.frame.pack();
-					window.frame.setResizable(false);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-
-				}
-			}
-		});
-	}
-
+	
+	
 	/**
 	 * Create the application.
 	 */
@@ -154,6 +138,7 @@ public class GUI {
 		ruleList.add(isFeatureRule);
 		ruleList.add(isLongRule);
 		initialize();
+		
 
 	}
 
@@ -684,7 +669,7 @@ public class GUI {
 	 * 
 	 * @return matrix containing every row and column in Strings
 	 */
-	private Object[][] convertToStringMatrix() {
+	public Object[][] convertToStringMatrix() {
 		List<ExcelObject> list = excelfile.getExcelObjects();
 		Object[][] matrixGUI = new Object[list.size()][12];
 		int contador = 0;
