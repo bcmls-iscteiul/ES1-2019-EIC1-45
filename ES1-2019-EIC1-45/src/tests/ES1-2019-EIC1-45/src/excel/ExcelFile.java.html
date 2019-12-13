@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ExcelFile.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (1) (13 Dec 2019 13:35:52)</a> &gt; <a href="../../index.html" class="el_group">ES1-2019-EIC1-45</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">excel</a> &gt; <span class="el_source">ExcelFile.java</span></div><h1>ExcelFile.java</h1><pre class="source lang-java linenums">package excel;
+
+import javax.swing.JFileChooser;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+/**This class represents the Excel File
+ * 
+ * @author Frederico Correia
+ * @author Nuno Rego
+ *
+ */
+public class ExcelFile {
+	
+	/**
+	 * Path to the excel file
+	 */
+<span class="fc" id="L35">	private static String DIRECTORY=&quot;src/Long-Method.xlsx&quot;;</span>
+	
+	/**
+	 * Variable that will let us read a store the information of the Excel file with its methos (class is imported from foreign POI API)
+	 */
+	private XSSFWorkbook workbook;
+	/**
+	 * List of every ExcelObject in the file
+	 */
+<span class="fc" id="L44">	private List&lt;ExcelObject&gt; list = new ArrayList&lt;&gt;();</span>
+	
+<span class="fc" id="L46">	private int[] indicators = new int[4];</span>
+	
+	/**Creates a new ExcelFile
+	 * 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+<span class="fc" id="L53">	public ExcelFile() throws FileNotFoundException, IOException {</span>
+<span class="fc" id="L54">		importFile();</span>
+<span class="fc" id="L55">	}</span>
+
+	/**This method will import the excel file and create ExcelObjects for each line of the file adding them all into a list
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public void importFile() throws FileNotFoundException, IOException {
+		// Create Workbook instance holding reference to .xlsx file
+<span class="fc" id="L64">		this.workbook = new XSSFWorkbook(new FileInputStream(DIRECTORY));</span>
+		
+		
+		// Then store every line in the excel, which represents a method of the Excel File, in the ArrayList
+		
+<span class="fc" id="L69">		XSSFSheet sheet = workbook.getSheetAt(0);</span>
+		
+<span class="fc" id="L71">		int i = 1;</span>
+		
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		for (Row row : sheet) {</span>
+<span class="pc bpc" id="L74" title="1 of 4 branches missed.">			if (i != 1 &amp;&amp; i &lt; 422) {</span>
+				
+<span class="fc" id="L76">				ExcelObject r = new ExcelObject();</span>
+<span class="fc" id="L77">				r.setId(row.getCell(0).getNumericCellValue());</span>
+<span class="fc" id="L78">				r.setPckage(row.getCell(1).getStringCellValue());</span>
+<span class="fc" id="L79">				r.setClss(row.getCell(2).getStringCellValue());</span>
+<span class="fc" id="L80">				r.setMethod(row.getCell(3).getStringCellValue());</span>
+<span class="fc" id="L81">				r.setLoc(row.getCell(4).getNumericCellValue());</span>
+<span class="fc" id="L82">				r.setCyclo(row.getCell(5).getNumericCellValue());</span>
+<span class="fc" id="L83">				r.setAtfd(row.getCell(6).getNumericCellValue());</span>
+				
+				try {
+<span class="fc" id="L86">					r.setLaa(row.getCell(7).getNumericCellValue());</span>
+<span class="fc" id="L87">				} catch(IllegalStateException e) {</span>
+<span class="fc" id="L88">					r.setLaa(row.getCell(7).getStringCellValue());</span>
+				}
+				
+<span class="fc" id="L91">				r.setIs_long_method(row.getCell(8).getBooleanCellValue());</span>
+<span class="fc" id="L92">				r.setiPlasma(row.getCell(9).getBooleanCellValue());</span>
+<span class="fc" id="L93">				r.setPMD(row.getCell(10).getBooleanCellValue());</span>
+<span class="fc" id="L94">				r.setIs_feature_envy(row.getCell(11).getBooleanCellValue());</span>
+				
+<span class="fc" id="L96">				setIndicators(r);</span>
+				
+				
+<span class="fc" id="L99">				list.add(r);</span>
+			}
+			
+<span class="fc" id="L102">			i++;</span>
+		}
+<span class="fc" id="L104">	}</span>
+	
+	/**
+	 * 
+	 * @return list of ExcelObjects
+	 */
+	public List&lt;ExcelObject&gt; getExcelObjects() {
+<span class="fc" id="L111">		return this.list;</span>
+	}
+	
+	public void setIndicators(ExcelObject obj) {
+<span class="fc" id="L115">		boolean[] result = obj.defineIndicators(obj);</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">		for(int i=0; i&lt;4; i++) {</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">			if(result[i]) {</span>
+<span class="fc" id="L118">				indicators[i] ++;</span>
+			}
+		}
+<span class="fc" id="L121">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>AllTests (1) (13 Dec 2019 13:35:52)</div></body></html>

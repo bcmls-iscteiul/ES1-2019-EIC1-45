@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (1) (13 Dec 2019 13:35:52)</a> &gt; <a href="../../index.html" class="el_group">ES1-2019-EIC1-45</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">package gui;
+
+import java.awt.BorderLayout;
+
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import org.apache.commons.math3.analysis.function.Add;
+
+import excel.ExcelFile;
+import excel.ExcelObject;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.lang.reflect.AnnotatedTypeVariable;
+import java.net.NoRouteToHostException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import excel.ExcelFile;
+import excel.ExcelObject;
+
+/**
+ * This class represents a line of the excel file.
+ * 
+ * @author Bernando Sequeira
+ * @author Joao Pinto
+ * @author Tomas Godinho
+ *
+ */
+
+public class GUI {
+
+	public JFrame getFrame() {
+<span class="nc" id="L75">		return frame;</span>
+	}
+
+	/**
+	 * Main Frame used
+	 */
+	private JFrame frame;
+	/**
+	 * JTable used to show the Excel file
+	 */
+	private JTable ExcelTable;
+	/**
+	 * Object containing the Excel File(Apache)
+	 */
+	private ExcelFile excelfile;
+	/**
+	 * Container used along with CardLayout
+	 */
+	private Container container;
+	/**
+	 * Defining CardLayout
+	 */
+<span class="fc" id="L97">	private CardLayout layout = new CardLayout();</span>
+
+	/**
+	 * Rules List
+	 * 
+	 * @see calculateNewRule(Rule newRule)
+	 */
+
+	private ArrayList&lt;Rule&gt; ruleList;
+	/**
+	 * JPanel of the DCI Panel
+	 */
+	JPanel DCIPanel;
+	/**
+	 * JPanel of the DII Panel
+	 */
+	JPanel DIIPanel;
+	/**
+	 * JPanel of the ADCI Panel
+	 */
+	JPanel ADCIPanel;
+	/**
+	 * JPanel of the ADII Panel
+	 */
+	JPanel ADIIPanel;
+	/**
+	 * Creates the isLongRule Rule
+	 */
+<span class="fc" id="L125">	private Rule isLongRule = new Rule(&quot;isLong&quot;, &quot;LOC&quot;, &quot;CYCLO&quot;, 80., 10., true, true, true, false);</span>
+	/**
+	 * Creates the isFeatureEnvy Rule
+	 */
+<span class="fc" id="L129">	private Rule isFeatureRule = new Rule(&quot;isFeatureEnvy&quot;, &quot;ATFD&quot;, &quot;LAA&quot;, 4., 0.42, true, false, true, true);</span>
+
+	public static void main(String[] args) {
+
+<span class="nc" id="L133">		EventQueue.invokeLater(new Runnable() {</span>
+			public void run() {
+				try {
+<span class="nc" id="L136">					GUI window = new GUI();</span>
+<span class="nc" id="L137">					window.convertToStringMatrix();</span>
+<span class="nc" id="L138">					window.frame.pack();</span>
+<span class="nc" id="L139">					window.frame.setResizable(false);</span>
+<span class="nc" id="L140">					window.frame.setVisible(true);</span>
+<span class="nc" id="L141">				} catch (Exception e) {</span>
+<span class="nc" id="L142">					e.printStackTrace();</span>
+
+				}
+<span class="nc" id="L145">			}</span>
+		});
+<span class="nc" id="L147">	}</span>
+
+	/**
+	 * Create the application.
+	 */
+<span class="fc" id="L152">	public GUI() {</span>
+<span class="fc" id="L153">		ruleList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L154">		ruleList.add(isFeatureRule);</span>
+<span class="fc" id="L155">		ruleList.add(isLongRule);</span>
+<span class="fc" id="L156">		initialize();</span>
+
+<span class="fc" id="L158">	}</span>
+
+	private Object[][] newDefectsTable(Object[][] existing, Object[] addedColumn) {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">		if(addedColumn==null) throw new IllegalStateException(&quot;new addedColumn is empty&quot;);</span>
+<span class="nc" id="L162">		Object[][] newTable = new Object[existing.length + 1][excelfile.getExcelObjects().size()];</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">		for (int i = 0; i &lt; existing.length; i++) {</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">			for (int j = 0; j &lt; existing[i].length; j++) {</span>
+<span class="nc" id="L165">				newTable[i][j] = existing[i][j];</span>
+			}
+		}
+<span class="nc bnc" id="L168" title="All 2 branches missed.">		for(int i=0;i&lt;existing[0].length;i++) {</span>
+<span class="nc" id="L169">			newTable[existing.length][i]= addedColumn[i];</span>
+		}
+<span class="nc" id="L171">		return newTable;</span>
+
+	}
+
+	/**
+	 * Implements the DCI Panel in the GUI
+	 */
+
+	private void DCI() {
+<span class="fc" id="L180">		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();</span>
+<span class="fc" id="L181">		DCIPanel = new JPanel();</span>
+<span class="fc" id="L182">		String[] DCIcolumnNames = { &quot;MethodID&quot;, &quot;DCI&quot; };</span>
+<span class="fc" id="L183">		JTable DCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[0], DCIcolumnNames);</span>
+<span class="fc" id="L184">		DCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);</span>
+<span class="fc" id="L185">		Dimension d1 = DCITable.getPreferredSize();</span>
+<span class="fc" id="L186">		d1.height = 600;</span>
+<span class="fc" id="L187">		DCITable.setPreferredScrollableViewportSize(d1);</span>
+<span class="fc" id="L188">		JScrollPane pane1 = new JScrollPane(DCITable);</span>
+<span class="fc" id="L189">		DCIPanel.add(pane1, BorderLayout.CENTER);</span>
+<span class="fc" id="L190">	}</span>
+
+	/**
+	 * Implements the DII Panel in the GUI
+	 */
+
+	private void DII() {
+<span class="fc" id="L197">		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();</span>
+<span class="fc" id="L198">		DIIPanel = new JPanel();</span>
+<span class="fc" id="L199">		String[] DIIcolumnNames = { &quot;MethodID&quot;, &quot;DII&quot; };</span>
+<span class="fc" id="L200">		JTable DIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[1], DIIcolumnNames);</span>
+<span class="fc" id="L201">		DIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);</span>
+<span class="fc" id="L202">		Dimension d2 = DIITable.getPreferredSize();</span>
+<span class="fc" id="L203">		d2.height = 600;</span>
+<span class="fc" id="L204">		DIITable.setPreferredScrollableViewportSize(d2);</span>
+<span class="fc" id="L205">		JScrollPane pane3 = new JScrollPane(DIITable);</span>
+<span class="fc" id="L206">		DIIPanel.add(pane3, BorderLayout.CENTER);</span>
+<span class="fc" id="L207">	}</span>
+
+	/**
+	 * Implements the ADCI Panel in the GUI
+	 */
+	private void ADCI() {
+<span class="fc" id="L213">		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();</span>
+
+<span class="fc" id="L215">		ADCIPanel = new JPanel();</span>
+<span class="fc" id="L216">		String[] ADCIcolumnNames = { &quot;MethodID&quot;, &quot;ADCI&quot; };</span>
+<span class="fc" id="L217">		JTable ADCITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[2], ADCIcolumnNames);</span>
+<span class="fc" id="L218">		ADCITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);</span>
+<span class="fc" id="L219">		Dimension d3 = ADCITable.getPreferredSize();</span>
+<span class="fc" id="L220">		d3.height = 600;</span>
+<span class="fc" id="L221">		ADCITable.setPreferredScrollableViewportSize(d3);</span>
+<span class="fc" id="L222">		JScrollPane pane4 = new JScrollPane(ADCITable);</span>
+<span class="fc" id="L223">		ADCIPanel.add(pane4, BorderLayout.CENTER);</span>
+<span class="fc" id="L224">	}</span>
+
+	/**
+	 * Implements the ADII Panel in the GUI
+	 */
+
+	private void ADII() {
+<span class="fc" id="L231">		Object[] listDCI_DII_ADCI_ADII = this.convertRulesToGUI();</span>
+<span class="fc" id="L232">		ADIIPanel = new JPanel();</span>
+<span class="fc" id="L233">		String[] ADIIcolumnNames = { &quot;MethodID&quot;, &quot;ADII&quot; };</span>
+<span class="fc" id="L234">		JTable ADIITable = new JTable((Object[][]) listDCI_DII_ADCI_ADII[3], ADIIcolumnNames);</span>
+<span class="fc" id="L235">		ADIITable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);</span>
+<span class="fc" id="L236">		Dimension d4 = ADIITable.getPreferredSize();</span>
+<span class="fc" id="L237">		d4.height = 600;</span>
+<span class="fc" id="L238">		ADIITable.setPreferredScrollableViewportSize(d4);</span>
+<span class="fc" id="L239">		JScrollPane pane5 = new JScrollPane(ADIITable);</span>
+<span class="fc" id="L240">		ADIIPanel.add(pane5, BorderLayout.CENTER);</span>
+<span class="fc" id="L241">	}</span>
+
+	/**
+	 * Calls all defects methods
+	 */
+
+	private void allDefects() {
+<span class="fc" id="L248">		DCI();</span>
+<span class="fc" id="L249">		DII();</span>
+<span class="fc" id="L250">		ADCI();</span>
+<span class="fc" id="L251">		ADII();</span>
+<span class="fc" id="L252">	}</span>
+
+	/**
+	 * Implements all Swing components used. Includes a exit button.
+	 */
+	private void initialize() {
+<span class="fc" id="L258">		frame = new JFrame();</span>
+<span class="fc" id="L259">		container = frame.getContentPane();</span>
+		try {
+<span class="fc" id="L261">			excelfile = new ExcelFile();</span>
+<span class="pc" id="L262">		} catch (IOException e1) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L264">			e1.printStackTrace();</span>
+		}
+		// frame.setBounds(100, 100, 881, 560);
+<span class="fc" id="L267">		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L268">		frame.getContentPane().setLayout(layout);</span>
+
+		// Show Excel in GUI
+<span class="fc" id="L271">		JPanel excelPanel = new JPanel();</span>
+
+<span class="fc" id="L273">		String[] columnNames = { &quot;MethodID&quot;, &quot;package&quot;, &quot;class&quot;, &quot;method&quot;, &quot;LOC&quot;, &quot;CYCLO&quot;, &quot;ATFD&quot;, &quot;LAA&quot;,</span>
+<span class="fc" id="L274">				&quot;Is Long Method&quot;, &quot;iPlasma&quot;, &quot;PMD&quot;, &quot;Is feature envy&quot; };</span>
+
+<span class="fc" id="L276">		ExcelTable = new JTable(convertToStringMatrix(), columnNames);</span>
+<span class="fc" id="L277">		ExcelTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);</span>
+<span class="fc" id="L278">		Dimension d = ExcelTable.getPreferredSize();</span>
+<span class="fc" id="L279">		d.height = 600;</span>
+<span class="fc" id="L280">		ExcelTable.setPreferredScrollableViewportSize(d);</span>
+<span class="fc" id="L281">		JScrollPane pane = new JScrollPane(ExcelTable);</span>
+<span class="fc" id="L282">		excelPanel.add(pane, BorderLayout.CENTER);</span>
+<span class="fc" id="L283">		container.add(&quot;ExcelPanel&quot;, excelPanel);</span>
+		//
+
+		// Show DCI,DII,ADCI,ADII tables
+<span class="fc" id="L287">		allDefects();</span>
+<span class="fc" id="L288">		container.add(&quot;DCIPanel&quot;, DCIPanel);</span>
+
+<span class="fc" id="L290">		container.add(&quot;DIIPanel&quot;, DIIPanel);</span>
+
+<span class="fc" id="L292">		container.add(&quot;ADCIPanel&quot;, ADCIPanel);</span>
+
+<span class="fc" id="L294">		container.add(&quot;ADIIPanel&quot;, ADIIPanel);</span>
+		//
+
+<span class="fc" id="L297">		JMenuBar menuBar = new JMenuBar();</span>
+<span class="fc" id="L298">		frame.setJMenuBar(menuBar);</span>
+
+<span class="fc" id="L300">		JMenuItem showExcel = new JMenuItem(&quot;Show Excel Table&quot;);</span>
+<span class="fc" id="L301">		showExcel.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L306">				layout.show(container, &quot;ExcelPanel&quot;);</span>
+<span class="nc" id="L307">			}</span>
+
+		});
+<span class="fc" id="L310">		menuBar.add(showExcel);</span>
+
+<span class="fc" id="L312">		JMenuItem defineThresholds = new JMenuItem(&quot;Define Thresholds&quot;);</span>
+<span class="fc" id="L313">		JPanel thresholdPanel = new JPanel(new BorderLayout());</span>
+<span class="fc" id="L314">		container.add(&quot;thresholdPanel&quot;, thresholdPanel);</span>
+<span class="fc" id="L315">		defineThresholds.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L319">				layout.show(container, &quot;thresholdPanel&quot;);</span>
+<span class="nc" id="L320">			}</span>
+
+		});
+<span class="fc" id="L323">		menuBar.add(defineThresholds);</span>
+
+<span class="fc" id="L325">		JPanel isLongPanel = new JPanel(new GridLayout(3, 2));</span>
+<span class="fc" id="L326">		JLabel LOCLabel = new JLabel(&quot;Define new Threshold for LOC: &quot;);</span>
+<span class="fc" id="L327">		JTextField LOCValue = new JTextField();</span>
+<span class="fc" id="L328">		JLabel CYCLOLabel = new JLabel(&quot;Define new Threshold for CYCLO: &quot;);</span>
+<span class="fc" id="L329">		JTextField CYCLOValue = new JTextField();</span>
+<span class="fc" id="L330">		JButton submitIsLong = new JButton(&quot;Submit isLong&quot;);</span>
+<span class="fc" id="L331">		submitIsLong.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L335">				isLongRule.setThreshold1(Double.parseDouble(LOCValue.getText()));</span>
+<span class="nc" id="L336">				isLongRule.setThreshold2(Double.parseDouble(CYCLOValue.getText()));</span>
+<span class="nc" id="L337">				allDefects();</span>
+<span class="nc" id="L338">				refreshTables();</span>
+<span class="nc" id="L339">				getFrame().repaint();</span>
+<span class="nc" id="L340">				getFrame().validate();</span>
+<span class="nc" id="L341">			}</span>
+		});
+
+<span class="fc" id="L344">		thresholdPanel.add(isLongPanel, BorderLayout.NORTH);</span>
+<span class="fc" id="L345">		isLongPanel.add(LOCLabel);</span>
+<span class="fc" id="L346">		isLongPanel.add(LOCValue);</span>
+<span class="fc" id="L347">		isLongPanel.add(CYCLOLabel);</span>
+<span class="fc" id="L348">		isLongPanel.add(CYCLOValue);</span>
+<span class="fc" id="L349">		isLongPanel.add(submitIsLong);</span>
+
+<span class="fc" id="L351">		JPanel isFeaturePanel = new JPanel(new GridLayout(3, 2));</span>
+<span class="fc" id="L352">		JLabel ATFDLabel = new JLabel(&quot;Define new Threshold for ATFD: &quot;);</span>
+<span class="fc" id="L353">		JTextField ATFDValue = new JTextField();</span>
+<span class="fc" id="L354">		JLabel LAALabel = new JLabel(&quot;Define new Threshold for LAA: &quot;);</span>
+<span class="fc" id="L355">		JTextField LAAValue = new JTextField();</span>
+<span class="fc" id="L356">		JButton submitIsFeature = new JButton(&quot;Submit isFeatureEnvy&quot;);</span>
+<span class="fc" id="L357">		submitIsFeature.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L361">				isFeatureRule.setThreshold1(Double.parseDouble(ATFDValue.getText()));</span>
+<span class="nc" id="L362">				isFeatureRule.setThreshold2(Double.parseDouble(LAAValue.getText()));</span>
+<span class="nc" id="L363">				allDefects();</span>
+<span class="nc" id="L364">				refreshTables();</span>
+<span class="nc" id="L365">				getFrame().repaint();</span>
+<span class="nc" id="L366">				getFrame().validate();</span>
+<span class="nc" id="L367">			}</span>
+		});
+<span class="fc" id="L369">		thresholdPanel.add(isFeaturePanel, BorderLayout.SOUTH);</span>
+<span class="fc" id="L370">		isFeaturePanel.add(ATFDLabel);</span>
+<span class="fc" id="L371">		isFeaturePanel.add(ATFDValue);</span>
+<span class="fc" id="L372">		isFeaturePanel.add(LAALabel);</span>
+<span class="fc" id="L373">		isFeaturePanel.add(LAAValue);</span>
+<span class="fc" id="L374">		isFeaturePanel.add(submitIsFeature);</span>
+
+<span class="fc" id="L376">		JMenuItem visualizeRules = new JMenuItem(&quot;Visualize Rules&quot;);</span>
+<span class="fc" id="L377">		JPanel visualizeRulesPanel = new JPanel();</span>
+<span class="fc" id="L378">		container.add(visualizeRulesPanel, &quot;visualizeRules&quot;);</span>
+
+<span class="fc" id="L380">		menuBar.add(visualizeRules);</span>
+
+<span class="fc" id="L382">		JMenu VisualizeRulesMenu = new JMenu(&quot;Quality&quot;);</span>
+
+<span class="fc" id="L384">		JMenuItem dci = new JMenuItem(&quot;DCI&quot;);</span>
+<span class="fc" id="L385">		dci.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L390">				layout.show(container, &quot;DCIPanel&quot;);</span>
+
+<span class="nc" id="L392">			}</span>
+
+		});
+<span class="fc" id="L395">		JMenuItem dii = new JMenuItem(&quot;DII&quot;);</span>
+<span class="fc" id="L396">		dii.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L401">				layout.show(container, &quot;DIIPanel&quot;);</span>
+<span class="nc" id="L402">			}</span>
+
+		});
+<span class="fc" id="L405">		JMenuItem adci = new JMenuItem(&quot;ADCI&quot;);</span>
+<span class="fc" id="L406">		adci.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L411">				layout.show(container, &quot;ADCIPanel&quot;);</span>
+<span class="nc" id="L412">			}</span>
+
+		});
+<span class="fc" id="L415">		JMenuItem adii = new JMenuItem(&quot;ADII&quot;);</span>
+<span class="fc" id="L416">		adii.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L421">				layout.show(container, &quot;ADIIPanel&quot;);</span>
+<span class="nc" id="L422">			}</span>
+
+		});
+
+<span class="fc" id="L426">		VisualizeRulesMenu.add(dci);</span>
+<span class="fc" id="L427">		VisualizeRulesMenu.add(dii);</span>
+<span class="fc" id="L428">		VisualizeRulesMenu.add(adci);</span>
+<span class="fc" id="L429">		VisualizeRulesMenu.add(adii);</span>
+
+<span class="fc" id="L431">		menuBar.add(VisualizeRulesMenu);</span>
+
+<span class="fc" id="L433">		JPanel newRulesPanelMain = new JPanel(new BorderLayout());</span>
+<span class="fc" id="L434">		JPanel newRulesPanelCheckBox = new JPanel(new GridLayout(2, 2, 10, 10));</span>
+<span class="fc" id="L435">		newRulesPanelMain.add(newRulesPanelCheckBox, BorderLayout.NORTH);</span>
+<span class="fc" id="L436">		JMenuItem AddNewRulesMenu = new JMenuItem(&quot;Add new rules&quot;);</span>
+<span class="fc" id="L437">		ArrayList&lt;JCheckBox&gt; checkboxList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L438">		JCheckBox LOCBox = new JCheckBox(&quot;LOC&quot;);</span>
+<span class="fc" id="L439">		checkboxList.add(LOCBox);</span>
+<span class="fc" id="L440">		newRulesPanelCheckBox.add(LOCBox);</span>
+<span class="fc" id="L441">		JCheckBox CYCLOBox = new JCheckBox(&quot;CYCLO&quot;);</span>
+<span class="fc" id="L442">		checkboxList.add(CYCLOBox);</span>
+<span class="fc" id="L443">		newRulesPanelCheckBox.add(CYCLOBox);</span>
+<span class="fc" id="L444">		JCheckBox AFTDBox = new JCheckBox(&quot;AFTD&quot;);</span>
+<span class="fc" id="L445">		checkboxList.add(AFTDBox);</span>
+<span class="fc" id="L446">		newRulesPanelCheckBox.add(AFTDBox);</span>
+<span class="fc" id="L447">		JCheckBox LAABox = new JCheckBox(&quot;LAA&quot;);</span>
+<span class="fc" id="L448">		checkboxList.add(LAABox);</span>
+<span class="fc" id="L449">		newRulesPanelCheckBox.add(LAABox);</span>
+<span class="fc bfc" id="L450" title="All 2 branches covered.">		for (JCheckBox c : checkboxList) {</span>
+<span class="fc" id="L451">			c.addActionListener(new ActionListener() {</span>
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L455">					int count = 0;</span>
+<span class="nc bnc" id="L456" title="All 2 branches missed.">					for (JCheckBox c : checkboxList) {</span>
+<span class="nc bnc" id="L457" title="All 2 branches missed.">						if (c.isSelected()) {</span>
+<span class="nc" id="L458">							count += 1;</span>
+						}
+<span class="nc bnc" id="L460" title="All 2 branches missed.">						if (count &gt; 2) {</span>
+<span class="nc" id="L461">							JCheckBox check = (JCheckBox) e.getSource();</span>
+<span class="nc" id="L462">							check.setSelected(false);</span>
+<span class="nc" id="L463">							JOptionPane.showMessageDialog(null, &quot;You can only select 2 checkboxes&quot;);</span>
+						}
+					}
+<span class="nc" id="L466">				}</span>
+			});
+		}
+<span class="fc" id="L469">		ButtonGroup methodChooser = new ButtonGroup();</span>
+<span class="fc" id="L470">		JRadioButton is_feature_envy = new JRadioButton(&quot;is_feature_envy&quot;, true);</span>
+<span class="fc" id="L471">		JRadioButton is_long_method = new JRadioButton(&quot;is_long_method&quot;);</span>
+<span class="fc" id="L472">		methodChooser.add(is_feature_envy);</span>
+<span class="fc" id="L473">		methodChooser.add(is_long_method);</span>
+<span class="fc" id="L474">		ButtonGroup andOr = new ButtonGroup();</span>
+<span class="fc" id="L475">		JRadioButton andButton = new JRadioButton(&quot;And&quot;, true);</span>
+<span class="fc" id="L476">		JRadioButton orButton = new JRadioButton(&quot;Or&quot;);</span>
+<span class="fc" id="L477">		andOr.add(andButton);</span>
+<span class="fc" id="L478">		andOr.add(orButton);</span>
+<span class="fc" id="L479">		ButtonGroup moreLessArg1 = new ButtonGroup();</span>
+<span class="fc" id="L480">		JRadioButton biggerButtonArg1 = new JRadioButton(&quot;Arg 1 &gt;&quot;, true);</span>
+<span class="fc" id="L481">		JRadioButton smallerButtonArg1 = new JRadioButton(&quot;Arg 1 &lt;&quot;);</span>
+<span class="fc" id="L482">		moreLessArg1.add(biggerButtonArg1);</span>
+<span class="fc" id="L483">		moreLessArg1.add(smallerButtonArg1);</span>
+<span class="fc" id="L484">		ButtonGroup moreLessArg2 = new ButtonGroup();</span>
+<span class="fc" id="L485">		JRadioButton biggerButtonArg2 = new JRadioButton(&quot;Arg 1 &gt;&quot;, true);</span>
+<span class="fc" id="L486">		JRadioButton smallerButtonArg2 = new JRadioButton(&quot;Arg 2 &lt;&quot;);</span>
+<span class="fc" id="L487">		moreLessArg2.add(biggerButtonArg2);</span>
+<span class="fc" id="L488">		moreLessArg2.add(smallerButtonArg2);</span>
+<span class="fc" id="L489">		JPanel newRulesPanelRadioButtons = new JPanel(new GridLayout(4, 2));</span>
+<span class="fc" id="L490">		newRulesPanelMain.add(newRulesPanelRadioButtons, BorderLayout.CENTER);</span>
+<span class="fc" id="L491">		newRulesPanelRadioButtons.add(is_feature_envy);</span>
+<span class="fc" id="L492">		newRulesPanelRadioButtons.add(is_long_method);</span>
+<span class="fc" id="L493">		newRulesPanelRadioButtons.add(andButton);</span>
+<span class="fc" id="L494">		newRulesPanelRadioButtons.add(orButton);</span>
+<span class="fc" id="L495">		newRulesPanelRadioButtons.add(biggerButtonArg1);</span>
+<span class="fc" id="L496">		newRulesPanelRadioButtons.add(smallerButtonArg1);</span>
+<span class="fc" id="L497">		newRulesPanelRadioButtons.add(biggerButtonArg2);</span>
+<span class="fc" id="L498">		newRulesPanelRadioButtons.add(smallerButtonArg2);</span>
+
+<span class="fc" id="L500">		JPanel newRulesPanelTextFields = new JPanel(new GridLayout(3, 2));</span>
+<span class="fc" id="L501">		newRulesPanelMain.add(newRulesPanelTextFields, BorderLayout.SOUTH);</span>
+<span class="fc" id="L502">		JLabel arg1Label = new JLabel(&quot;Insert Threshold for the first argument:&quot;);</span>
+<span class="fc" id="L503">		JTextField arg1Value = new JTextField();</span>
+<span class="fc" id="L504">		JLabel arg2Label = new JLabel(&quot;Insert Threshold for the second argument:&quot;);</span>
+<span class="fc" id="L505">		JTextField arg2Value = new JTextField();</span>
+<span class="fc" id="L506">		JButton submitButton = new JButton(&quot;Submit&quot;);</span>
+<span class="fc" id="L507">		submitButton.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L511">				int checkBoxCount = 0;</span>
+<span class="nc" id="L512">				String Arg1 = &quot;&quot;;</span>
+<span class="nc" id="L513">				String Arg2 = &quot;&quot;;</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">				for (JCheckBox c : checkboxList) {</span>
+<span class="nc bnc" id="L515" title="All 4 branches missed.">					if (Arg1.equals(&quot;&quot;) &amp;&amp; c.isSelected()) {</span>
+<span class="nc" id="L516">						Arg1 = c.getText();</span>
+<span class="nc" id="L517">						checkBoxCount++;</span>
+<span class="nc bnc" id="L518" title="All 4 branches missed.">					} else if (Arg2.equals(&quot;&quot;) &amp;&amp; c.isSelected()) {</span>
+<span class="nc" id="L519">						Arg2 = c.getText();</span>
+<span class="nc" id="L520">						checkBoxCount++;</span>
+					}
+				}
+<span class="nc bnc" id="L523" title="All 6 branches missed.">				if (checkBoxCount == 2 &amp;&amp; !arg1Value.getText().equals(&quot;&quot;) &amp;&amp; !arg2Value.getText().equals(&quot;&quot;)) {</span>
+					Double threshold1, threshold2;
+					try {
+<span class="nc" id="L526">						threshold1 = Double.parseDouble(arg1Value.getText());</span>
+<span class="nc" id="L527">						threshold2 = Double.parseDouble(arg2Value.getText());</span>
+<span class="nc" id="L528">					} catch (NumberFormatException exc) {</span>
+<span class="nc" id="L529">						JOptionPane.showMessageDialog(null, &quot;Make sure you entered numbers in the Text Fields.&quot;);</span>
+<span class="nc" id="L530">						return;</span>
+					}
+<span class="nc" id="L532">					Boolean greaterArg1 = false;</span>
+<span class="nc bnc" id="L533" title="All 2 branches missed.">					if (biggerButtonArg1.isSelected()) {</span>
+<span class="nc" id="L534">						greaterArg1 = true;</span>
+					}
+<span class="nc" id="L536">					Boolean greaterArg2 = false;</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">					if (biggerButtonArg2.isSelected()) {</span>
+<span class="nc" id="L538">						greaterArg2 = true;</span>
+					}
+<span class="nc" id="L540">					Boolean andValue = false;</span>
+<span class="nc bnc" id="L541" title="All 2 branches missed.">					if (andButton.isSelected()) {</span>
+<span class="nc" id="L542">						andValue = true;</span>
+					}
+<span class="nc" id="L544">					Boolean isFeatureEnvy = false;</span>
+<span class="nc bnc" id="L545" title="All 2 branches missed.">					if (is_feature_envy.isSelected()) {</span>
+<span class="nc" id="L546">						isFeatureEnvy = true;</span>
+					}
+<span class="nc" id="L548">					Rule newCustomRule = new Rule(&quot;Custom&quot;, Arg1, Arg2, threshold1, threshold2, greaterArg1,</span>
+<span class="nc" id="L549">							greaterArg2, andValue, isFeatureEnvy);</span>
+<span class="nc" id="L550">					ruleList.add(newCustomRule);</span>
+<span class="nc" id="L551">					calculateNewRule(newCustomRule);</span>
+<span class="nc" id="L552">					layout.show(container, &quot;ExcelPanel&quot;);</span>
+					// newRulesPanelMain.setVisible(!newRulesPanelMain.isVisible());
+					// excelPanel.setVisible(!excelPanel.isVisible());
+<span class="nc bnc" id="L555" title="All 2 branches missed.">				} else if (checkBoxCount != 2) {</span>
+<span class="nc" id="L556">					JOptionPane.showMessageDialog(null, &quot;You must select two arguments.&quot;);</span>
+<span class="nc bnc" id="L557" title="All 4 branches missed.">				} else if (arg1Value.getText().equals(&quot;&quot;) || arg2Value.getText().equals(&quot;&quot;)) {</span>
+<span class="nc" id="L558">					JOptionPane.showMessageDialog(null, &quot;Make sure you entered both values for the thresholds.&quot;);</span>
+				}
+<span class="nc" id="L560">				refreshTables();</span>
+<span class="nc" id="L561">			}</span>
+
+		});
+<span class="fc" id="L564">		newRulesPanelTextFields.add(arg1Label);</span>
+<span class="fc" id="L565">		newRulesPanelTextFields.add(arg1Value);</span>
+<span class="fc" id="L566">		newRulesPanelTextFields.add(arg2Label);</span>
+<span class="fc" id="L567">		newRulesPanelTextFields.add(arg2Value);</span>
+<span class="fc" id="L568">		newRulesPanelTextFields.add(submitButton);</span>
+
+<span class="fc" id="L570">		container.add(&quot;AddNewRules&quot;, newRulesPanelMain);</span>
+<span class="fc" id="L571">		AddNewRulesMenu.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L576">				layout.show(container, &quot;AddNewRules&quot;);</span>
+<span class="nc" id="L577">			}</span>
+
+		});
+<span class="fc" id="L580">		menuBar.add(AddNewRulesMenu);</span>
+
+<span class="fc" id="L582">		JMenuItem exitMenu = new JMenuItem(&quot;Exit&quot;);</span>
+<span class="fc" id="L583">		exitMenu.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+<span class="nc" id="L588">				System.exit(0);</span>
+<span class="nc" id="L589">			}</span>
+
+		});
+<span class="fc" id="L592">		menuBar.add(exitMenu);</span>
+
+<span class="fc" id="L594">		visualizeRules.addActionListener(new ActionListener() {</span>
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+<span class="nc" id="L599">				layout.show(container, &quot;visualizeRules&quot;);</span>
+<span class="nc" id="L600">				visualizeRulesPanel.removeAll();</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">				for (Rule r : ruleList) {</span>
+<span class="nc" id="L602">					String labelText = &quot;&quot;;</span>
+<span class="nc bnc" id="L603" title="All 6 branches missed.">					if (r.getGreaterArg1() &amp;&amp; r.getGreaterArg2() &amp;&amp; r.getAndValue()) {</span>
+<span class="nc" id="L604">						labelText = r.getName() + r.getArg1() + &quot; &gt; &quot; + r.getThreshold1() + &quot; &amp;&amp; &quot; + r.getArg2() + &quot; &gt; &quot;</span>
+<span class="nc" id="L605">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L606" title="All 6 branches missed.">					} else if (r.getGreaterArg1() &amp;&amp; r.getGreaterArg2() &amp;&amp; !r.getAndValue()) {</span>
+<span class="nc" id="L607">						labelText = r.getName() + r.getArg1() + &quot; &gt; &quot; + r.getThreshold1() + &quot; || &quot; + r.getArg2() + &quot; &gt; &quot;</span>
+<span class="nc" id="L608">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L609" title="All 6 branches missed.">					} else if (r.getGreaterArg1() &amp;&amp; !r.getGreaterArg2() &amp;&amp; r.getAndValue()) {</span>
+<span class="nc" id="L610">						labelText = r.getName() + r.getArg1() + &quot; &gt; &quot; + r.getThreshold1() + &quot; &amp;&amp; &quot; + r.getArg2() + &quot; &lt; &quot;</span>
+<span class="nc" id="L611">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L612" title="All 6 branches missed.">					} else if (r.getGreaterArg1() &amp;&amp; !r.getGreaterArg2() &amp;&amp; !r.getAndValue()) {</span>
+<span class="nc" id="L613">						labelText = r.getName() + r.getArg1() + &quot; &gt; &quot; + r.getThreshold1() + &quot; || &quot; + r.getArg2() + &quot; &lt; &quot;</span>
+<span class="nc" id="L614">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L615" title="All 6 branches missed.">					} else if (!r.getGreaterArg1() &amp;&amp; r.getGreaterArg2() &amp;&amp; r.getAndValue()) {</span>
+<span class="nc" id="L616">						labelText = r.getName() + r.getArg1() + &quot; &lt; &quot; + r.getThreshold1() + &quot; &amp;&amp; &quot; + r.getArg2() + &quot; &gt; &quot;</span>
+<span class="nc" id="L617">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L618" title="All 6 branches missed.">					} else if (!r.getGreaterArg1() &amp;&amp; r.getGreaterArg2() &amp;&amp; !r.getAndValue()) {</span>
+<span class="nc" id="L619">						labelText = r.getName() + r.getArg1() + &quot; &lt; &quot; + r.getThreshold1() + &quot; || &quot; + r.getArg2() + &quot; &gt; &quot;</span>
+<span class="nc" id="L620">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L621" title="All 6 branches missed.">					} else if (!r.getGreaterArg1() &amp;&amp; !r.getGreaterArg2() &amp;&amp; r.getAndValue()) {</span>
+<span class="nc" id="L622">						labelText = r.getName() + r.getArg1() + &quot; &lt; &quot; + r.getThreshold1() + &quot; &amp;&amp; &quot; + r.getArg2() + &quot; &lt; &quot;</span>
+<span class="nc" id="L623">								+ r.getThreshold2();</span>
+<span class="nc bnc" id="L624" title="All 6 branches missed.">					} else if (!r.getGreaterArg1() &amp;&amp; !r.getGreaterArg2() &amp;&amp; !r.getAndValue()) {</span>
+<span class="nc" id="L625">						labelText = r.getName() + r.getArg1() + &quot; &lt; &quot; + r.getThreshold1() + &quot; || &quot; + r.getArg2() + &quot; &lt; &quot;</span>
+<span class="nc" id="L626">								+ r.getThreshold2();</span>
+					}
+<span class="nc" id="L628">					JLabel label = new JLabel(labelText);</span>
+<span class="nc" id="L629">					visualizeRulesPanel.add(label);</span>
+<span class="nc bnc" id="L630" title="All 2 branches missed.">					if (r.getName().equals(&quot;Custom&quot;)) {</span>
+<span class="nc" id="L631">						JButton edit = new JButton(&quot;Edit Custom Rule&quot;);</span>
+<span class="nc" id="L632">						visualizeRulesPanel.add(edit);</span>
+<span class="nc" id="L633">						edit.addActionListener(new ActionListener() {</span>
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								// TODO Auto-generated method stub
+<span class="nc bnc" id="L638" title="All 2 branches missed.">								for (JCheckBox c : checkboxList) {</span>
+<span class="nc bnc" id="L639" title="All 4 branches missed.">									if (c.getText().equals(r.getArg1()) || c.getText().equals(r.getArg2())) {</span>
+<span class="nc" id="L640">										c.setSelected(true);</span>
+<span class="nc" id="L641">									} else {</span>
+<span class="nc" id="L642">										c.setSelected(false);</span>
+									}
+								}
+<span class="nc bnc" id="L645" title="All 2 branches missed.">								if (r.getAndValue()) {</span>
+<span class="nc" id="L646">									andButton.setSelected(true);</span>
+<span class="nc" id="L647">								} else {</span>
+<span class="nc" id="L648">									orButton.setSelected(false);</span>
+								}
+<span class="nc bnc" id="L650" title="All 2 branches missed.">								if (r.getGreaterArg1()) {</span>
+<span class="nc" id="L651">									biggerButtonArg1.setSelected(true);</span>
+<span class="nc" id="L652">								} else {</span>
+<span class="nc" id="L653">									smallerButtonArg1.setSelected(true);</span>
+								}
+<span class="nc bnc" id="L655" title="All 2 branches missed.">								if (r.getGreaterArg2()) {</span>
+<span class="nc" id="L656">									biggerButtonArg2.setSelected(true);</span>
+<span class="nc" id="L657">								} else {</span>
+<span class="nc" id="L658">									smallerButtonArg2.setSelected(true);</span>
+								}
+<span class="nc" id="L660">								arg1Value.setText(r.getThreshold1().toString());</span>
+<span class="nc" id="L661">								arg2Value.setText(r.getThreshold2().toString());</span>
+<span class="nc" id="L662">								ruleList.remove(r);</span>
+<span class="nc" id="L663">								layout.show(container, &quot;AddNewRules&quot;);</span>
+<span class="nc" id="L664">							}</span>
+						});
+
+					}
+
+<span class="nc" id="L669">					allDefects();</span>
+<span class="nc" id="L670">					getFrame().repaint();</span>
+<span class="nc" id="L671">					getFrame().validate();</span>
+
+				}
+<span class="nc" id="L674">			}</span>
+		});
+		// frame.getContentPane().add(excelPanel);
+		// frame.getContentPane().add(newRulesPanelMain);
+		// newRulesPanelMain.setVisible(false);
+
+<span class="fc" id="L680">	}</span>
+
+	/**
+	 * Gets the excelfile in an ExcelFile object
+	 * 
+	 * @return matrix containing every row and column in Strings
+	 */
+	private Object[][] convertToStringMatrix() {
+<span class="fc" id="L688">		List&lt;ExcelObject&gt; list = excelfile.getExcelObjects();</span>
+<span class="fc" id="L689">		Object[][] matrixGUI = new Object[list.size()][12];</span>
+<span class="fc" id="L690">		int contador = 0;</span>
+<span class="fc bfc" id="L691" title="All 2 branches covered.">		for (ExcelObject eo : list) {</span>
+<span class="fc" id="L692">			Object[] temp = { eo.getId(), eo.getPckage(), eo.getClass(), eo.getMethod(), eo.getLoc(), eo.getCyclo(),</span>
+<span class="fc" id="L693">					eo.getAtfd(), eo.getLaa(), eo.isIs_long_method(), eo.isiPlasma(), eo.isPMD(),</span>
+<span class="fc" id="L694">					eo.isIs_feature_envy() };</span>
+<span class="fc" id="L695">			matrixGUI[contador] = temp;</span>
+<span class="fc" id="L696">			contador++;</span>
+		}
+<span class="fc" id="L698">		return matrixGUI;</span>
+
+	}
+
+	/**
+	 * Gets the boolean array which defines the DCI, DII, ADCI, ADII(Qualities)
+	 * 
+	 * @return array with 4 arrays containing the ID of the method and the boolean
+	 *         related to the rule
+	 */
+
+	public Object[] convertRulesToGUI() {
+
+<span class="fc" id="L711">		List&lt;ExcelObject&gt; list = excelfile.getExcelObjects();</span>
+<span class="fc" id="L712">		int contador = 0;</span>
+<span class="fc" id="L713">		Object[][] tempDCI = new Object[list.size()][list.size()];</span>
+<span class="fc" id="L714">		Object[][] tempDII = new Object[list.size()][list.size()];</span>
+<span class="fc" id="L715">		Object[][] tempADCI = new Object[list.size()][list.size()];</span>
+<span class="fc" id="L716">		Object[][] tempADII = new Object[list.size()][list.size()];</span>
+<span class="fc bfc" id="L717" title="All 2 branches covered.">		for (ExcelObject eo : list) {</span>
+<span class="fc" id="L718">			boolean dci = eo.defineIndicators(eo)[0];</span>
+<span class="fc" id="L719">			boolean dii = eo.defineIndicators(eo)[1];</span>
+<span class="fc" id="L720">			boolean adci = eo.defineIndicators(eo)[2];</span>
+<span class="fc" id="L721">			boolean adii = eo.defineIndicators(eo)[3];</span>
+<span class="fc" id="L722">			Object[] tempDCIM = { eo.getId(), dci };</span>
+<span class="fc" id="L723">			tempDCI[contador] = tempDCIM;</span>
+<span class="fc" id="L724">			Object[] tempDIIM = { eo.getId(), dii };</span>
+<span class="fc" id="L725">			tempDII[contador] = tempDIIM;</span>
+<span class="fc" id="L726">			Object[] tempADCIM = { eo.getId(), adci };</span>
+<span class="fc" id="L727">			tempADCI[contador] = tempADCIM;</span>
+<span class="fc" id="L728">			Object[] tempADIIM = { eo.getId(), adii };</span>
+<span class="fc" id="L729">			tempADII[contador] = tempADIIM;</span>
+<span class="fc" id="L730">			contador++;</span>
+		}
+<span class="fc" id="L732">		Object[] final_list = { tempDCI, tempDII, tempADCI, tempADII };</span>
+<span class="fc" id="L733">		return final_list;</span>
+	}
+
+	/**
+	 * Calculates new Rules
+	 * 
+	 */
+	private void calculateNewRule(Rule newRule) {
+<span class="nc bnc" id="L741" title="All 2 branches missed.">		for (int i = 0; i &lt; this.ExcelTable.getRowCount(); i++) {</span>
+			double arg1Value, arg2Value;
+<span class="nc bnc" id="L743" title="All 4 branches missed.">			switch (newRule.getArg1()) {</span>
+			case (&quot;LOC&quot;):
+<span class="nc" id="L745">				arg1Value = (double) this.ExcelTable.getValueAt(i, 4);</span>
+				
+<span class="nc" id="L747">				break;</span>
+			case (&quot;CYCLO&quot;):
+<span class="nc" id="L749">				arg1Value = (double) this.ExcelTable.getValueAt(i, 5);</span>
+				
+<span class="nc" id="L751">				break;</span>
+			case (&quot;AFTD&quot;):
+<span class="nc" id="L753">				arg1Value = (double) this.ExcelTable.getValueAt(i, 6);</span>
+				
+<span class="nc" id="L755">				break;</span>
+			default:
+<span class="nc" id="L757">				arg1Value = 0;</span>
+			}
+<span class="nc bnc" id="L759" title="All 4 branches missed.">			switch (newRule.getArg2()) {</span>
+			case (&quot;CYCLO&quot;):
+<span class="nc" id="L761">				arg2Value = (double) this.ExcelTable.getValueAt(i, 5);</span>
+				
+<span class="nc" id="L763">				break;</span>
+			case (&quot;AFTD&quot;):
+<span class="nc" id="L765">				arg2Value = (double) this.ExcelTable.getValueAt(i, 6);</span>
+				
+<span class="nc" id="L767">				break;</span>
+			case (&quot;LAA&quot;):
+<span class="nc" id="L769">				arg2Value = (double) this.ExcelTable.getValueAt(i, 7);</span>
+				
+<span class="nc" id="L771">				break;</span>
+			default:
+<span class="nc" id="L773">				arg2Value = 0;</span>
+			}
+<span class="nc" id="L775">			Boolean isTrue = false;</span>
+<span class="nc bnc" id="L776" title="All 6 branches missed.">			if (newRule.getGreaterArg1() &amp;&amp; newRule.getGreaterArg2() &amp;&amp; newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L777" title="All 4 branches missed.">				isTrue = arg1Value &gt;= newRule.getThreshold1() &amp;&amp; arg2Value &gt;= newRule.getThreshold2();</span>
+<span class="nc bnc" id="L778" title="All 6 branches missed.">			} else if (newRule.getGreaterArg1() &amp;&amp; newRule.getGreaterArg2() &amp;&amp; !newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L779" title="All 4 branches missed.">				isTrue = arg1Value &gt;= newRule.getThreshold1() || arg2Value &gt;= newRule.getThreshold2();</span>
+<span class="nc bnc" id="L780" title="All 6 branches missed.">			} else if (newRule.getGreaterArg1() &amp;&amp; !newRule.getGreaterArg2() &amp;&amp; newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L781" title="All 4 branches missed.">				isTrue = arg1Value &gt;= newRule.getThreshold1() &amp;&amp; arg2Value &lt; newRule.getThreshold2();</span>
+<span class="nc bnc" id="L782" title="All 6 branches missed.">			} else if (newRule.getGreaterArg1() &amp;&amp; !newRule.getGreaterArg2() &amp;&amp; !newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L783" title="All 4 branches missed.">				isTrue = arg1Value &gt;= newRule.getThreshold1() || arg2Value &lt; newRule.getThreshold2();</span>
+<span class="nc bnc" id="L784" title="All 6 branches missed.">			} else if (!newRule.getGreaterArg1() &amp;&amp; newRule.getGreaterArg2() &amp;&amp; newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L785" title="All 4 branches missed.">				isTrue = arg1Value &lt; newRule.getThreshold1() &amp;&amp; arg2Value &gt;= newRule.getThreshold2();</span>
+<span class="nc bnc" id="L786" title="All 6 branches missed.">			} else if (!newRule.getGreaterArg1() &amp;&amp; newRule.getGreaterArg2() &amp;&amp; !newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L787" title="All 4 branches missed.">				isTrue = arg1Value &lt; newRule.getThreshold1() || arg2Value &gt;= newRule.getThreshold2();</span>
+<span class="nc bnc" id="L788" title="All 6 branches missed.">			} else if (!newRule.getGreaterArg1() &amp;&amp; !newRule.getGreaterArg2() &amp;&amp; newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L789" title="All 4 branches missed.">				isTrue = arg1Value &lt; newRule.getThreshold1() &amp;&amp; arg2Value &lt; newRule.getThreshold2();</span>
+<span class="nc bnc" id="L790" title="All 6 branches missed.">			} else if (!newRule.getGreaterArg1() &amp;&amp; !newRule.getGreaterArg2() &amp;&amp; !newRule.getAndValue()) {</span>
+<span class="nc bnc" id="L791" title="All 4 branches missed.">				isTrue = arg1Value &lt; newRule.getThreshold1() || arg2Value &lt; newRule.getThreshold2();</span>
+			}
+<span class="nc bnc" id="L793" title="All 2 branches missed.">			if (newRule.getIsFeatureEnvy()) {</span>
+<span class="nc" id="L794">				this.ExcelTable.setValueAt(isTrue, i, 11);</span>
+<span class="nc" id="L795">			} else {</span>
+<span class="nc" id="L796">				this.ExcelTable.setValueAt(isTrue, i, 8);</span>
+			}
+		}
+
+<span class="nc" id="L800">	}</span>
+	
+	/**
+	 * Refreshes the Defects Tables
+	 * 
+	 */
+
+	public void refreshTables() {
+		// INVOCAR CONSTRUCOES DE PAINEL P CADA
+<span class="nc" id="L809">		DCI();</span>
+<span class="nc" id="L810">		DII();</span>
+<span class="nc" id="L811">		ADCI();</span>
+<span class="nc" id="L812">		ADII();</span>
+<span class="nc" id="L813">		getFrame().repaint();</span>
+<span class="nc" id="L814">		getFrame().validate();</span>
+<span class="nc" id="L815">	}</span>
+
+	/**
+	 * Converts an ArrayList to String[]
+	 * @returns String[] 
+	 * 
+	 */
+	
+	public String[] arrayListToArray(ArrayList&lt;String&gt; lista) {
+<span class="fc" id="L824">		int size = lista.size();</span>
+<span class="fc" id="L825">		int count = 0;</span>
+<span class="fc" id="L826">		String[] array = new String[size];</span>
+<span class="fc bfc" id="L827" title="All 2 branches covered.">		for (String s : lista) {</span>
+<span class="fc" id="L828">			array[count] = s;</span>
+<span class="fc" id="L829">			count++;</span>
+		}
+<span class="fc" id="L831">		return array;</span>
+	}
+
+	
+	
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>AllTests (1) (13 Dec 2019 13:35:52)</div></body></html>

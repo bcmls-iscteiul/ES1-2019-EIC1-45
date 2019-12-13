@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RuleTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (1) (13 Dec 2019 13:35:52)</a> &gt; <a href="../../index.html" class="el_group">ES1-2019-EIC1-45</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">tests</a> &gt; <span class="el_source">RuleTest.java</span></div><h1>RuleTest.java</h1><pre class="source lang-java linenums">package tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import excel.ExcelObject;
+import gui.Rule;
+
+<span class="fc" id="L11">class RuleTest {</span>
+
+	Rule rule;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+<span class="fc" id="L17">		rule = new Rule(&quot;testname&quot; ,&quot;testarg1&quot;,&quot;testarg2&quot;, 1.0, 1.0, false, false, false, false);</span>
+<span class="fc" id="L18">	}</span>
+	
+	@Test
+	void testGetName() {
+<span class="fc" id="L22">		assertEquals(rule.getName(), &quot;testname&quot;);</span>
+<span class="fc" id="L23">		assertNotEquals(rule.getName(),&quot;name&quot;);</span>
+<span class="fc" id="L24">	}</span>
+	@Test
+	void testGetThreshold1() {
+<span class="fc" id="L27">		assertEquals(rule.getThreshold1(), 1.0);</span>
+<span class="fc" id="L28">		assertNotEquals(rule.getThreshold1(),2.0);</span>
+<span class="fc" id="L29">	}</span>
+	@Test
+	void testSetThreshold1() {
+<span class="fc" id="L32">		rule.setThreshold1(2.0);</span>
+<span class="fc" id="L33">		assertEquals(rule.getThreshold1(),2.0);</span>
+<span class="fc" id="L34">	}</span>
+	@Test
+	void testGetThreshold2() {
+<span class="fc" id="L37">		assertEquals(rule.getThreshold2(), 1.0);</span>
+<span class="fc" id="L38">		assertNotEquals(rule.getThreshold2(),2.0);</span>
+<span class="fc" id="L39">	}</span>
+	@Test
+	void testSetThreshold2() {
+<span class="fc" id="L42">		rule.setThreshold2(2.0);</span>
+<span class="fc" id="L43">		assertEquals(rule.getThreshold2(),2.0);</span>
+<span class="fc" id="L44">	}</span>
+	
+	@Test
+	void testGetArg1() {
+<span class="fc" id="L48">		assertEquals(rule.getArg1(), &quot;testarg1&quot;);</span>
+<span class="fc" id="L49">		assertNotEquals(rule.getArg1(),&quot;name&quot;);</span>
+<span class="fc" id="L50">	}</span>
+	
+	@Test
+	void testGetArg2() {
+<span class="fc" id="L54">		assertEquals(rule.getArg2(), &quot;testarg2&quot;);</span>
+<span class="fc" id="L55">		assertNotEquals(rule.getArg2(),&quot;name&quot;);</span>
+<span class="fc" id="L56">	}</span>
+	
+	@Test
+	void testGetGreaterArg1() {
+<span class="fc" id="L60">		assertEquals(rule.getGreaterArg1(), false);</span>
+<span class="fc" id="L61">	}</span>
+	
+	@Test
+	void testGetGreaterArg2() {
+<span class="fc" id="L65">		assertEquals(rule.getGreaterArg2(), false);</span>
+<span class="fc" id="L66">	}</span>
+	
+	@Test
+	void testAndValue() {
+<span class="fc" id="L70">		assertEquals(rule.getAndValue(), false);</span>
+<span class="fc" id="L71">	}</span>
+	
+	@Test
+	void testGetIsFeautureEnvy() {
+<span class="fc" id="L75">		assertEquals(rule.getIsFeatureEnvy(), false);</span>
+<span class="fc" id="L76">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>AllTests (1) (13 Dec 2019 13:35:52)</div></body></html>

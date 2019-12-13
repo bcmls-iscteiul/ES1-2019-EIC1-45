@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ExcelObjectTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">AllTests (1) (13 Dec 2019 13:35:52)</a> &gt; <a href="../../index.html" class="el_group">ES1-2019-EIC1-45</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">tests</a> &gt; <span class="el_source">ExcelObjectTest.java</span></div><h1>ExcelObjectTest.java</h1><pre class="source lang-java linenums">package tests;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import excel.ExcelObject;
+
+<span class="fc" id="L10">class ExcelObjectTest {</span>
+
+	ExcelObject obj;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+<span class="fc" id="L16">		obj = new ExcelObject(1 ,&quot;testPackage&quot;,&quot;testClass&quot;, &quot;testMethod&quot;, 1, 1, 1, 1, false, false, false, false);</span>
+<span class="fc" id="L17">	}</span>
+	
+	@Test
+	void testGetId() {
+<span class="fc" id="L21">		assertEquals(obj.getId(),1);</span>
+<span class="fc" id="L22">		assertNotEquals(obj.getId(),2);</span>
+<span class="fc" id="L23">	}</span>
+	
+	@Test
+	void testSetId() {
+<span class="fc" id="L27">		obj.setId(3);</span>
+<span class="fc" id="L28">		assertEquals(obj.getId(),3);</span>
+<span class="fc" id="L29">	}</span>
+	
+	@Test
+	void testGetPckage() {
+<span class="fc" id="L33">		assertEquals(obj.getPckage(),&quot;testPackage&quot;);</span>
+<span class="fc" id="L34">		assertNotEquals(obj.getPckage(),&quot;test&quot;);</span>
+<span class="fc" id="L35">	}</span>
+	
+	@Test
+	void testSetPckage() {
+<span class="fc" id="L39">		obj.setPckage(&quot;default&quot;);</span>
+<span class="fc" id="L40">		assertEquals(obj.getPckage(),&quot;default&quot;);</span>
+<span class="fc" id="L41">	}</span>
+	
+	@Test
+	void testGetClss() {
+<span class="fc" id="L45">		assertEquals(obj.getClss(),&quot;testClass&quot;);</span>
+<span class="fc" id="L46">		assertNotEquals(obj.getClss(),&quot;test&quot;);</span>
+<span class="fc" id="L47">	}</span>
+	
+	@Test
+	void testSetClss() {
+<span class="fc" id="L51">		obj.setClss(&quot;default&quot;);</span>
+<span class="fc" id="L52">		assertEquals(obj.getClss(),&quot;default&quot;);</span>
+<span class="fc" id="L53">	}</span>
+
+	@Test
+	void testGetMethod() {
+<span class="fc" id="L57">		assertEquals(obj.getMethod(),&quot;testMethod&quot;);</span>
+<span class="fc" id="L58">		assertNotEquals(obj.getMethod(),&quot;import&quot;);</span>
+<span class="fc" id="L59">	}</span>
+	
+	@Test
+	void testSetMethod() {
+<span class="fc" id="L63">		obj.setMethod(&quot;import&quot;);</span>
+<span class="fc" id="L64">		assertEquals(obj.getMethod(),&quot;import&quot;);</span>
+<span class="fc" id="L65">	}</span>
+
+	@Test
+	void testGetLoc() {
+<span class="fc" id="L69">		assertEquals(obj.getLoc(),1);</span>
+<span class="fc" id="L70">		assertNotEquals(obj.getLoc(),2);</span>
+<span class="fc" id="L71">	}</span>
+	
+	@Test
+	void testSetLoc() {
+<span class="fc" id="L75">		obj.setLoc(3);</span>
+<span class="fc" id="L76">		assertEquals(obj.getLoc(),3);</span>
+<span class="fc" id="L77">	}</span>
+	
+	@Test
+	void testGetCyclo() {
+<span class="fc" id="L81">		assertEquals(obj.getCyclo(),1);</span>
+<span class="fc" id="L82">		assertNotEquals(obj.getCyclo(),2);</span>
+<span class="fc" id="L83">	}</span>
+	
+	@Test
+	void testSetCyclo() {
+<span class="fc" id="L87">		obj.setCyclo(3);</span>
+<span class="fc" id="L88">		assertEquals(obj.getCyclo(),3);</span>
+<span class="fc" id="L89">	}</span>
+	
+	@Test
+	void testGetAtfd() {
+<span class="fc" id="L93">		assertEquals(obj.getAtfd(),1);</span>
+<span class="fc" id="L94">		assertNotEquals(obj.getAtfd(),2);</span>
+<span class="fc" id="L95">	}</span>
+	
+	@Test
+	void testSetAtfd() {
+<span class="fc" id="L99">		obj.setAtfd(3);</span>
+<span class="fc" id="L100">		assertEquals(obj.getAtfd(),3);</span>
+<span class="fc" id="L101">	}</span>
+
+	@Test
+	void testGetLaa() {
+<span class="fc" id="L105">		assertEquals(obj.getLaa(),1);</span>
+<span class="fc" id="L106">		assertNotEquals(obj.getLaa(),2);</span>
+<span class="fc" id="L107">	}</span>
+	
+	@Test
+	void testSetLaaDouble() {
+<span class="fc" id="L111">		obj.setLaa(3.0);</span>
+<span class="fc" id="L112">		assertEquals(obj.getLaa(),3.0);</span>
+<span class="fc" id="L113">	}</span>
+	
+	@Test
+	void testSetLaaString() {
+<span class="fc" id="L117">		obj.setLaa(&quot;3&quot;);</span>
+<span class="fc" id="L118">		assertEquals(obj.getLaa(),3);</span>
+<span class="fc" id="L119">	}</span>
+	
+	@Test
+	void testIs_long_method() {
+<span class="fc" id="L123">		assertEquals(obj.isIs_long_method(), false);</span>
+<span class="fc" id="L124">	}</span>
+
+	@Test
+	void testSetIs_long_method() {
+<span class="fc" id="L128">		obj.setIs_long_method(true);</span>
+<span class="fc" id="L129">		assertEquals(obj.isIs_long_method(), true);</span>
+<span class="fc" id="L130">	}</span>
+
+	@Test
+	void testIPlasma() {
+<span class="fc" id="L134">		assertEquals(obj.isiPlasma(), false);</span>
+<span class="fc" id="L135">	}</span>
+
+	@Test
+	void testSetIPlasma() {
+<span class="fc" id="L139">		obj.setiPlasma(true);</span>
+<span class="fc" id="L140">		assertEquals(obj.isiPlasma(), true);</span>
+<span class="fc" id="L141">	}</span>
+
+	@Test
+	void testIsPMD() {
+<span class="fc" id="L145">		assertEquals(obj.isPMD(), false);</span>
+<span class="fc" id="L146">	}</span>
+
+	@Test
+	void testSetPMD() {
+<span class="fc" id="L150">		obj.setPMD(true);</span>
+<span class="fc" id="L151">		assertEquals(obj.isPMD(), true);</span>
+<span class="fc" id="L152">	}</span>
+
+	@Test
+	void testIs_feature_envy() {
+<span class="fc" id="L156">		assertEquals(obj.isIs_feature_envy(), false);</span>
+<span class="fc" id="L157">	}</span>
+
+	@Test
+	void testSetIs_feature_envy() {
+<span class="fc" id="L161">		obj.setIs_feature_envy(true);</span>
+<span class="fc" id="L162">		assertEquals(obj.isIs_feature_envy(), true);</span>
+<span class="fc" id="L163">	}</span>
+
+	@Test
+	void testToString() {
+<span class="fc" id="L167">		assertEquals(obj.toString(), &quot;ExcelObject [id=1.0]&quot;);</span>
+<span class="fc" id="L168">	}</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>AllTests (1) (13 Dec 2019 13:35:52)</div></body></html>
