@@ -743,15 +743,15 @@ public class GUI {
 			switch (newRule.getArg1()) {
 			case ("LOC"):
 				arg1Value = (double) this.ExcelTable.getValueAt(i, 4);
-				System.out.println(arg1Value);
+				
 				break;
 			case ("CYCLO"):
 				arg1Value = (double) this.ExcelTable.getValueAt(i, 5);
-				System.out.println(arg1Value);
+				
 				break;
 			case ("AFTD"):
 				arg1Value = (double) this.ExcelTable.getValueAt(i, 6);
-				System.out.println(arg1Value);
+				
 				break;
 			default:
 				arg1Value = 0;
@@ -759,15 +759,15 @@ public class GUI {
 			switch (newRule.getArg2()) {
 			case ("CYCLO"):
 				arg2Value = (double) this.ExcelTable.getValueAt(i, 5);
-				System.out.println(arg2Value);
+				
 				break;
 			case ("AFTD"):
 				arg2Value = (double) this.ExcelTable.getValueAt(i, 6);
-				System.out.println(arg2Value);
+				
 				break;
 			case ("LAA"):
 				arg2Value = (double) this.ExcelTable.getValueAt(i, 7);
-				System.out.println(arg2Value);
+				
 				break;
 			default:
 				arg2Value = 0;
@@ -798,6 +798,11 @@ public class GUI {
 		}
 
 	}
+	
+	/**
+	 * Refreshes the Defects Tables
+	 * 
+	 */
 
 	public void refreshTables() {
 		// INVOCAR CONSTRUCOES DE PAINEL P CADA
@@ -809,12 +814,17 @@ public class GUI {
 		getFrame().validate();
 	}
 
+	/**
+	 * Converts an ArrayList to String[]
+	 * @returns String[] 
+	 * 
+	 */
+	
 	public String[] arrayListToArray(ArrayList<String> lista) {
 		int size = lista.size();
 		int count = 0;
 		String[] array = new String[size];
 		for (String s : lista) {
-			System.out.println("ARRAYLIST TO ARRAY: " + s);
 			array[count] = s;
 			count++;
 		}

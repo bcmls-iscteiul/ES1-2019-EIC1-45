@@ -62,12 +62,12 @@ public class ExcelFile {
 	public void importFile() throws FileNotFoundException, IOException {
 		// Create Workbook instance holding reference to .xlsx file
 		this.workbook = new XSSFWorkbook(new FileInputStream(DIRECTORY));
-		System.out.println("Novo workbook: " + workbook);
+		
 		
 		// Then store every line in the excel, which represents a method of the Excel File, in the ArrayList
 		
 		XSSFSheet sheet = workbook.getSheetAt(0);
-		System.out.println("Selected sheet: " + sheet.getSheetName());
+		
 		int i = 1;
 		
 		for (Row row : sheet) {
@@ -95,7 +95,7 @@ public class ExcelFile {
 				
 				setIndicators(r);
 				
-				System.out.println("Created excel object: " + r);
+				
 				list.add(r);
 			}
 			
